@@ -19,122 +19,35 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 - **Model Dropping**: Dynamic removal of underperforming models
 - **Gold Standard Support**: Optional supervision using ground truth labels
 
-## Architecture
+## Implementation Architecture
 
-### Core Modules
+### Core Pipeline
 
-#### 1. Experiment Orchestration
-- **`main_experiments.py`**: Central experiment controller
-  - Manages multi-iteration experiment workflow
-  - Coordinates annotation, analysis, and supervision phases
-  - Handles experiment configuration and result aggregation
-  - Supports both baseline and iterative modes
+**Experiment Orchestration** (`main_experiments.py`)
+- Coordinates multi-iteration workflow across annotation → analysis → supervision phases
+- Manages experiment configuration and result aggregation
 
-#### 2. Model Annotation
-- **`annotation_runner.py`**: Single model annotation execution
-  - Implements retry logic for failed annotations
-  - Collects metrics and confusing cases
-  - Manages supervisor instruction integration
-  
-- **`parallel_annotation.py`**: Parallel model processing
-  - Concurrent execution using ThreadPoolExecutor
-  - Supervisor file synchronization for iterations
-  - Result caching and reuse optimization
-  - OpenRouter-specific optimizations
+**Annotation** (`annotation_runner.py`, `parallel_annotation.py`, `base_annotator.py`)
+- Parallel model processing via ThreadPoolExecutor
+- Supervisor instruction integration for iterative refinement
+- Result caching and OpenRouter optimization
 
-- **`base_annotator.py`**: NER agent implementation
-  - LLM interaction and prompt management
-  - Entity extraction with BIO tagging
-  - Supervisor instruction incorporation
-  - Model-agnostic inference interface
+**Analysis** (`disagreement_analysis_in_pipeline.py`, `agreement_analysis_test.py`, `error_analysis.py`)
+- Hotspot identification using disagreement metrics (Dconf, Dtype, Ubnd)
+- Inter-annotator agreement calculation (Cohen's/Fleiss' Kappa)
+- Error pattern categorization and documentation
 
-#### 3. LLM Client Management
-- **`llm_clients.py`**: Multi-provider LLM client
-  - OpenRouter, OpenAI, Anthropic, and Ollama support
-  - Automatic rate limit handling and retry logic
-  - Token usage tracking and cost estimation
-  - Fallback model management
+**Supervision** (`supervisor_implementation.py`, `base_supervisor.py`)
+- 4-phase instruction refinement:
+  - Phase 1: Disagreement pattern extraction
+  - Phase 2: Model-specific error diagnosis
+  - Phase 3: Instruction hierarchization
+  - Phase 4: Guideline organization and output
 
-#### 4. Analysis Pipeline
-- **`agreement_analysis_test.py`**: Inter-annotator agreement
-  - Cohen's Kappa and Fleiss' Kappa calculation
-  - Pairwise and overall agreement metrics
-  - Statistical significance testing
-
-- **`disagreement_analysis_in_pipeline.py`**: Disagreement pattern analysis
-  - Hotspot identification (high-disagreement samples)
-  - Coalition analysis (model clustering)
-  - Disagreement documentation generation
-  - Support for both disagreement-based and gold standard modes
-
-- **`error_analysis.py`**: Error pattern identification
-  - Per-model error categorization
-  - Confusion matrix generation
-  - Error type classification (FP, FN, type errors)
-  - Model-specific weakness identification
-
-#### 5. Supervision System
-- **`supervisor_implementation.py`**: Supervisor orchestration
-  - 4-phase analysis execution
-  - Result caching and reuse
-  - Cost estimation and tracking
-
-- **`base_supervisor.py`**: Core supervisor logic
-  - **Phase 1**: Disagreement pattern analysis
-    - Identifies common annotation challenges
-    - Generates hierarchical common instructions
-    - Extracts recurring error patterns
-  
-  - **Phase 2**: Model-specific analysis
-    - Analyzes individual model weaknesses
-    - Generates targeted improvement guidelines
-    - Prioritizes critical issues
-  
-  - **Phase 3**: Instruction hierarchization
-    - Organizes guidelines by priority
-    - Ensures consistency across instructions
-    - Balances common vs. model-specific guidance
-  
-  - **Phase 4**: Final guideline generation
-    - Produces structured JSON output
-    - Validates instruction completeness
-    - Formats for next iteration consumption
-
-#### 6. Utility Modules
-- **`utils_experiments.py`**: Experiment helpers
-  - Path management and result saving
-  - Configuration loading
-  - Experiment summary generation
-  - Iteration metadata handling
-
-- **`utils_annotator.py`**: Annotation utilities
-  - BIO-entity conversion
-  - Metric calculation (precision, recall, F1)
-  - Validation and formatting
-
-- **`utils_model_dropping.py`**: Model selection logic
-  - Performance-based model dropping
-  - Pairwise F1 score extraction
-  - Decision logging
-
-#### 7. Data Preparation
-- **`lexical_diversity_grouping.py`**: Sample selection
-  - K-means clustering on sentence embeddings
-  - Diversity-based group creation
-  - Representativeness analysis
-  - GPU-accelerated clustering
-
-#### 8. Testing and Inference
-- **`get_final_test_prompts.py`**: Prompt extraction
-  - Collects prompts from experiment results
-  - Organizes by search condition and benchmark
-  - Supports filtering and analysis
-
-- **`inference_final_test_prompts.py`**: Final inference
-  - Runs inference on extracted prompts
-  - Parallel processing support
-  - Model name normalization
-  - Result aggregation
+**Utilities** (`utils_experiments.py`, `utils_annotator.py`, `lexical_diversity_grouping.py`)
+- Dataset grouping via K-means clustering on sentence embeddings
+- BIO-entity conversion and metric calculation
+- Model selection and result management
 
 ## Workflow
 
@@ -546,17 +459,11 @@ Average cost per benchmark:
 
 **Critical Components**:
 1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
-2. **Annotator Diversity** (Table 4): Homogeneous model pools fail to improve beyond iteration 0
-3. **Optimal Set Size** (Table 5): 15-20 samples per iteration achieve best performance
-4. **Gold Standard** (Table 9): Disagreement-guided approach outperforms gold supervision (-0.4 F1)
-
-![Table 4: Model Diversity](figures/table4_diversity.png)
-*Table 4: Heterogeneous models essential—single-family pools (Qwen/Llama) peak at iteration 0.*
+2. **Annotator Diversity**: Homogeneous model pools fail to improve beyond iteration 0
+3. **Optimal Set Size**: 15-20 samples per iteration achieve best performance
+4. **Gold Standard** (-0.4 F1): Disagreement-guided approach outperforms gold supervision
 
 #### Datasets Evaluated
-
-![Table 7: Dataset Statistics](figures/table7_datasets.png)
-*Table 7: Comprehensive evaluation across 18 benchmarks covering diverse domains and entity types.*
 
 **18 NER Benchmarks**:
 - **Cross-domain**: CrossNER (AI, Literature, Music, Politics, Science)
