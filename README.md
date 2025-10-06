@@ -41,7 +41,9 @@ Key findings:
 
 ### Key Ablation Studies
 
-![Table 3: Final Task Goal](figures/table3_taskgoal.png)
+<p align="center">
+  <img src="figures/table3_taskgoal.png" alt="Table 3: Final Task Goal" width="60%">
+</p>
 
 **Critical Components**:
 1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
