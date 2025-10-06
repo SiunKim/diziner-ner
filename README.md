@@ -39,12 +39,6 @@ Key findings:
 - Disagreement-guided refinement is the primary driver of improvements
 - Performance gains stem from instruction quality rather than supervisor model scale
 
-### Key Ablation Studies
-
-<p align="center">
-  <img src="figures/table3_taskgoal.png" alt="Table 3: Final Task Goal" width="60%">
-</p>
-
 **Critical Components**:
 1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
 2. **Annotator Diversity**: Homogeneous model pools fail to improve beyond iteration 0
