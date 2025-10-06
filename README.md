@@ -111,7 +111,7 @@ results = main_iterative_experiment(
     benchmark="crossner_ai",
     num_models=8,
     max_iterations=5,
-    supervisor_model_name="gpt-4o-mini",
+    supervisor_model_name="gpt-5-mini-2025-08-07",
     llm_infer_by_openrouter=True,
     max_common_instructions=5,
     max_patterns=10,
@@ -129,7 +129,7 @@ results = main_iterative_experiment(
     benchmark="ACE05",
     num_models=8,
     max_iterations=5,
-    supervisor_model_name="gpt-4o-mini",
+    supervisor_model_name="gpt-5-mini-2025-08-07",
     llm_infer_by_openrouter=True
 )
 
@@ -138,7 +138,7 @@ results = main_iterative_experiment(
     benchmark="conllpp",
     num_models=8,
     max_iterations=5,
-    supervisor_model_name="gpt-4o-mini",
+    supervisor_model_name="gpt-5-mini-2025-08-07",
     llm_infer_by_openrouter=True
 )
 ```
