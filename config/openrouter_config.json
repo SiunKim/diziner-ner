@@ -1,0 +1,151 @@
+{
+  "api_key": "YOUR-OPENROUTER-APIKEYS",
+  "model_mappings": {
+    "gpt-oss:20b": [
+      "openai/gpt-oss-20b:free",
+      "openai/gpt-oss-20b"
+    ],
+    "deepseek-r1:8b": [
+      "deepseek/deepseek-r1-0528-qwen3-8b:free",
+      "deepseek/deepseek-r1-0528-qwen3-8b"
+    ],
+    "gemma3:12b": [
+      "google/gemma-3-12b-it:free",
+      "google/gemma-3-12b-it"
+    ],
+    "qwen3:14b": [
+      "qwen/qwen3-14b:free",
+      "qwen/qwen3-14b"
+    ],
+    "llama3.1:8b": [
+      "meta-llama/llama-3.1-8b-instruct:free",
+      "meta-llama/llama-3.1-8b-instruct"
+    ],
+    "phi4:14b": [
+      "microsoft/phi-4-reasoning-plus",
+      "microsoft/phi-4"
+    ],
+    "mistral-small3.2:24b": [
+      "mistralai/mistral-small-3.2-24b-instruct:free",
+      "mistralai/mistral-small-3.2-24b-instruct"
+    ],
+    "Randomblock1/nemotron-nano:8b": [
+      "nvidia/nemotron-nano-9b-v2:free",
+      "nvidia/nemotron-nano-9b-v2"
+    ],
+    "sonoma-dusk-alpha": [
+      "x-ai/grok-4-fast:free",
+      "x-ai/grok-3-mini",
+      "openrouter/sonoma-dusk-alpha"
+    ],
+    "sonoma-sky-alpha": [
+      "x-ai/grok-4-fast:free",
+      "x-ai/grok-3-mini",
+      "openrouter/sonoma-sky-alpha"
+    ],
+    "x-ai/grok-3-mini": [
+      "x-ai/grok-3-mini"
+    ],
+    "glm4:32b": [
+      "z-ai/glm-4-32b"
+    ],
+    "llama3.1:70b": [
+      "meta-llama/llama-3.1-70b-instruct"
+    ],
+    "llama3.1_70b": [
+      "meta-llama/llama-3.1-70b-instruct"
+    ],
+    "gemini2.5_flash-lite": [
+      "google/gemini-2.5-flash-lite"
+    ],
+    "gemini2.5:flash-lite": [
+      "google/gemini-2.5-flash-lite"
+    ],
+    "mistal-nemo:12b": [
+      "mistralai/mistral-nemo"
+    ],
+    "hynyuan-A13B": [
+      "tencent/hunyuan-a13b-instruct"
+    ],
+    "qwen-turbo": [
+      "qwen/qwen-turbo"
+    ],
+    "llama-3.3-70b-instruct": [
+      "meta-llama/llama-3.3-70b-instruct"
+    ],
+    "llama-3.1-8b-instruct": [
+      "meta-llama/llama-3.1-8b-instruct"
+    ],
+    "llama-guard-3-8b": [
+      "meta-llama/llama-guard-3-8b"
+    ],
+    "hermes-2-pro-llama-3-8b": [
+      "nousresearch/hermes-2-pro-llama-3-8b"
+    ],
+    "meta-llama-3-8b-instruct": [
+      "meta-llama/llama-3-8b-instruct"
+    ],
+    "deepseek-r1-distill-llama-8b": [
+      "deepseek/deepseek-r1-distill-llama-8b"
+    ],
+    "l3-lunaris-8b": [
+      "sao10k/l3-lunaris-8b"
+    ],
+    "llama-3.1-lumimaid-8b": [
+      "neversleep/llama-3.1-lumimaid-8b"
+    ],
+    "baidu_ernie": [
+      "baidu/ernie-4.5-21b-a3b"
+      ],
+    "deepseek-r1-0528-qwen3-8b": [
+      "deepseek/deepseek-r1-0528-qwen3-8b"
+    ],
+    "qwen3-32b": [
+       "qwen/qwen3-32b"
+    ],
+    "qwen3-8b": [
+      "qwen/qwen3-8b"
+    ],
+    "qwen-2.5-7b-instruct": [
+      "qwen/qwen-2.5-7b-instruct"
+    ],
+    "qwen3-14b": [
+      "qwen/qwen3-14b"
+    ],
+    "qwen-2.5-coder-32b-instruct": [
+      "qwen/qwen-2.5-coder-32b-instruct"
+    ],
+    "qwen3-30b-a3b": [
+      "qwen/qwen3-30b-a3b"
+    ],
+    "qwen-3-coder-30b": [
+      "qwen/qwen3-coder-30b-a3b-instruct"
+    ]
+  },
+  "token_costs": {
+    "openai/gpt-oss-20b": {"input_per_million": 0.04, "output_per_million": 0.15},
+    "openai/gpt-oss-20b:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "deepseek/deepseek-r1-distill-qwen-14b": {"input_per_million": 0.50, "output_per_million": 2.15},
+    "deepseek/deepseek-r1-distill-qwen-14b:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "google/gemma-3-12b-it": null,
+    "google/gemma-3-12b-it:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "qwen/qwen3-14b": {"input_per_million": 0.15, "output_per_million": 0.40},
+    "qwen/qwen3-14b:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "meta-llama/llama-3.1-8b-instruct": {"input_per_million": 0.055, "output_per_million": 0.055},
+    "meta-llama/llama-3.1-8b-instruct:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "microsoft/phi-4-reasoning": {"input_per_million": 0.07, "output_per_million": 0.14},
+    "microsoft/phi-4-reasoning-plus:free": {"input_per_million": 0.0, "output_per_million": 0.0},
+    "mistralai/mistral-small-3.2-24b-instruct": {"input_per_million": 0.05, "output_per_million": 0.10},
+    "mistralai/mistral-small-3.2-24b-instruct:free": {"input_per_million": 0.0, "output_per_million": 0.0}
+  },
+  "default_settings": {
+    "timeout_seconds": 120,
+    "max_retries_per_model": 3,
+    "rate_limit_retry_delay": 3
+  },
+  "cost_tracking": {
+    "enabled": true,
+    "free_model_cost": 0.0,
+    "paid_model_cost_per_1k_tokens": 0.001
+  }
+}
