@@ -1,0 +1,142 @@
+  {
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "concept or principle": "CNPT",
+    "manufacturing process": "MFPC",
+    "material": "MATL",
+    "process parameter": "PRCP",
+    "process characterization": "PRCH",
+    "enabling technology": "ENTC",
+    "engineering feature": "ENGF",
+    "machanical property": "MECP",
+    "application": "APP",
+    "machine or equipment": "MEQP",
+    "manufacturing standard": "MFSD",
+    "biomedical": "BIOM"
+  },
+  "ner_scheme": {
+    "CNPT": {
+          "definition_en": "Concept or Principle - General manufacturing theories, laws, strategies, or high-level conceptual terms not tied to a specific machine, process step, or parameter.",
+
+    "positive_examples": ["rapid solidification", "scanning strategy", "heat transfer", "residual stress relaxation", "diffusion mechanism"],
+    "negative_examples": ["ISO 25178-2", "laser power", "grain size", "Ti-6Al-4V"]
+    },
+    "MFPC": {
+      "definition_en": "Manufacturing Process - Unit manufacturing operations and formally named processes.",
+      "positive_examples": ["selective laser melting", "friction stir welding", "gas atomization", "electron beam melting", "3D printing"],
+      "negative_examples": ["powder bed", "hatch spacing", "temperature gradient", "SLM machine"]
+    },
+    "MATL": {
+      "definition_en": "Material - Specific materials, alloys, polymers, ceramics, composites, and biomaterials.",
+      "positive_examples": ["Ti-6Al-4V", "AlSi10Mg", "carbon fiber", "elastomers"],
+      "negative_examples": ["yield strength", "powder morphology", "microstructure", "lattice structure"]
+    },
+    "PRCP": {
+      "definition_en": "Process Parameter - Adjustable process inputs and setpoints under operator or system control.",
+      "positive_examples": ["laser power", "scan speed", "layer thickness", "build temperature", "feed rate"],
+      "negative_examples": ["porosity", "residual stress", "surface morphology", "CT imaging"]
+    },
+    "PRCH": {
+      "definition_en": "Process Characterization - Characterization techniques, measured descriptors, or outputs used to analyze processes, materials, or parts.",
+      "positive_examples": ["x-ray diffraction", "CT scan", "surface morphology", "contact angle"],
+      "negative_examples": ["ISO/ASTM 52900", "powder bed fusion", "build plate", "SLM process"]
+    },
+    "ENTC": {
+      "definition_en": "Enabling Technology - Digital or automation technologies enabling design, control, and integration of manufacturing workflows.",
+      "positive_examples": ["CAD", "OPC UA", "digital twin", "MES system"],
+      "negative_examples": ["lathe", "abrasion theory", "Ti powder", "porosity"]
+    },
+    "ENGF": {
+      "definition_en": "Engineering Feature - Geometric or engineering features of components or CAD-based design constructs.",
+      "positive_examples": ["overhang feature", "lattice structure", "Z-direction build", "thin wall"],
+      "negative_examples": ["electron beam melting", "grain boundary", "ISO standard"]
+    },
+    "MECP": {
+      "definition_en": "Mechanical Property - Mechanical performance properties, metrics, or test-based results.",
+      "positive_examples": ["yield strength", "hardness", "fatigue life", "tensile strength", "fracture toughness"],
+      "negative_examples": ["heat treatment", "Ti64 powder", "laser scan speed", "ISO 52900"]
+    },
+    "APP": {
+      "definition_en": "Application - End-use domains, application areas, and product-level manufactured parts.",
+      "positive_examples": ["aircraft component", "dental crown", "orthopedic implant", "turbine blade"],
+      "negative_examples": ["powder bed", "Young’s modulus", "laser scanning", "CT analysis"]
+    },
+    "MEQP": {
+      "definition_en": "Machine or Equipment - Machines, instruments, sensors, and equipment involved in manufacturing.",
+      "positive_examples": ["powder bed system", "build plate", "BAAM machine", "SLM printer"],
+      "negative_examples": ["scanning strategy", "ISO standard", "yield strength", "rapid solidification"]
+    },
+    "MFSD": {
+      "definition_en": "Manufacturing Standard - Formal manufacturing standards, specifications, or digital formats.",
+      "positive_examples": ["ISO/ASTM 52900", "STL format", "ASTM F42", "AMF format"],
+      "negative_examples": ["CT imaging", "powder morphology", "build orientation", "hardness test"]
+    },
+    "BIOM": {
+      "definition_en": "Biomedical - Biomedical materials, tissues, or clinically relevant manufactured entities.",
+      "positive_examples": ["trabecular bone", "Ti implant", "bioprinted cartilage", "scaffold structure"],
+      "negative_examples": ["EBM machine", "laser energy density", "grain size", "hardness test"]
+    }
+  },
+  "final_task_goal": "This corpus builds a multi-label manufacturing NER resource for Technical Language Processing.\n * Document pool and source: English-language abstracts and papers from manufacturing science and engineering literature, covering additive manufacturing, machining, materials, standards, and biomedical applications.\n * Purpose of NER: Identify contiguous spans corresponding to manufacturing-relevant entities and assign them to twelve categories, enabling consistent annotation of materials, processes, parameters, and related concepts.\n * Entity types: Twelve categories—Concept or Principle (CNPT), Manufacturing Process (MFPC), Material (MATL), Process Parameter (PRCP), Process Characterization (PRCH), Enabling Technology (ENTC), Engineering Feature (ENGF), Mechanical Property (MECP), Application (APP), Machine or Equipment (MEQP), Manufacturing Standard (MFSD), and Biomedical (BIOM).\n * Downstream applications: Support ontology-aligned indexing, semantic search, question answering, and construction of manufacturing knowledge graphs, facilitating literature mining and advanced manufacturing informatics.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/FabNER/FabNER_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "Chemical": "CHEM"
+  },
+  "ner_scheme": {
+    "CHEM": {
+      "definition_en": "Mentions of chemical entities in biomedical and chemical literature, including systematic IUPAC names, trivial/common names, abbreviations, chemical formulas, identifiers, family names, and coordinated multiple mentions. Annotated mentions must be linkable to chemical structure information or recognized classes of compounds. Excludes vague chemical concepts (e.g. 'pigment'), biological roles (e.g. 'hormone', 'antibiotic'), macromolecules above 15 amino acids, and whole organisms.",
+      "positive_examples": ["acetaminophen", "PFOS"],
+      "negative_examples": ["antipsychotics", "enzyme"]
+    }
+  },
+  "final_task_goal": "This task builds a single-label chemical NER corpus optimized for recognizing chemical mentions in biomedical text. * Document pool and source: Documents are drawn from PubMed abstracts across multiple chemistry-related disciplines, ensuring coverage of systematic names, trivial names, formulas, abbreviations, identifiers, and families. * Purpose of NER: Identify contiguous spans corresponding to chemical entity mentions and annotate them with character offsets. Only structure-associated chemical mentions are included, ensuring potential mapping to chemical structures or classes. * Entity types: A single category is used—Chemical (CHEM)—covering systematic names, trivial/common names, formulas, abbreviations, identifiers, family names, and coordinated multiple mentions. * Downstream applications: The annotated dataset and resulting models support chemical database linking, normalization to canonical structures, large-scale chemical information retrieval, and serve as upstream input for relation extraction tasks involving chemicals, genes, and diseases.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/bc4chemd/bc4chemd_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

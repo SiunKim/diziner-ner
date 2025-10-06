@@ -1,0 +1,131 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "country": "CTRY",
+    "election": "ELEC",
+    "event": "EVENT",
+    "location": "LOC",
+    "misc": "MISC",
+    "organisation": "ORG",
+    "politicalparty": "PARTY",
+    "person": "PER",
+    "politician": "POL"
+  },
+  "ner_scheme": {
+    "POL": {
+      "definition_en": "Proper names of individuals who are politicians. If a person is a political figure, annotate as POL instead of PER.",
+      "positive_examples": ["Angela Merkel", "Barack Obama"],
+      "negative_examples": ["the president", "a senator"]
+    },
+    "PER": {
+      "definition_en": "Proper names of individuals not categorized as POL. General persons without explicit political roles.",
+      "positive_examples": ["Albert Einstein", "Taylor Swift"],
+      "negative_examples": ["a person", "the man"]
+    },
+    "PARTY": {
+      "definition_en": "Proper names of political parties. If an organization is a party, annotate as PARTY instead of ORG.",
+      "positive_examples": ["United Socialist Party of Venezuela", "Democratic Party"],
+      "negative_examples": ["the party", "a political group"]
+    },
+    "ELEC": {
+      "definition_en": "Named election events.",
+      "positive_examples": ["2016 United States presidential election", "Brexit referendum"],
+      "negative_examples": ["the election", "a campaign"]
+    },
+    "EVENT": {
+      "definition_en": "Named events in politics other than elections, such as wars, summits, campaigns.",
+      "positive_examples": ["Paris Peace Conference", "Yalta Conference"],
+      "negative_examples": ["the summit", "a war"]
+    },
+    "ORG": {
+      "definition_en": "Organizations in politics not classified as PARTY, including governmental and international bodies.",
+      "positive_examples": ["United Nations", "European Commission"],
+      "negative_examples": ["the government", "the organization"]
+    },
+    "CTRY": {
+      "definition_en": "Country names and sovereign states.",
+      "positive_examples": ["Germany", "United States"],
+      "negative_examples": ["the country", "the nation"]
+    },
+    "LOC": {
+      "definition_en": "Geographic locations excluding countries.",
+      "positive_examples": ["Washington D.C.", "Brussels"],
+      "negative_examples": ["the city", "the region"]
+    },
+    "MISC": {
+      "definition_en": "Residual named entities in the politics domain that do not fit POL, PER, PARTY, ELEC, EVENT, ORG, CTRY, or LOC. Use sparingly and only for proper names without another suitable label.",
+      "positive_examples": ["Arab Spring", "Cold War"],
+      "negative_examples": ["a protest", "a movement"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate politics-related Wikipedia texts to support downstream linking and database construction. The labels ensure structured representation of politicians, parties, elections, events, organizations, and general entities (persons, locations, countries). This structured annotation enables entity linking across political actors, organizations, and events, facilitating construction of political knowledge bases, databases of political history, and enhanced retrieval of political information resources.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_politics_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "sonoma-dusk-alpha",
+    "sonoma-sky-alpha",
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "academicjournal": "JOUR",
+    "astronomicalobject": "ASTRO",
+    "award": "AWARD",
+    "chemicalcompound": "CHEM",
+    "chemicalelement": "ELEM",
+    "country": "CTRY",
+    "discipline": "DISC",
+    "enzyme": "ENZ",
+    "event": "EVENT",
+    "location": "LOC",
+    "misc": "MISC",
+    "organisation": "ORG",
+    "person": "PER",
+    "protein": "PROT",
+    "scientist": "SCI",
+    "theory": "THEO",
+    "university": "UNI"
+  },
+  "ner_scheme": {
+    "SCI": {
+      "definition_en": "Proper names of individuals recognized as scientists. If a person is a scientist, annotate as SCI instead of PER.",
+      "positive_examples": ["Isaac Newton", "Marie Curie"],
+      "negative_examples": ["a scientist", "the chemist"]
+    },
+    "PER": {
+      "definition_en": "Proper names of individuals not categorized as SCI. General persons unrelated to science.",
+      "positive_examples": ["Barack Obama", "Wolfgang Amadeus Mozart"],
+      "negative_examples": ["a person", "the man"]
+    },
+    "UNI": {
+      "definition_en": "Proper names of universities.",
+      "positive_examples": ["Harvard University", "University of Cambridge"],
+      "negative_examples": ["the university", "a campus"]
+    },
+    "ORG": {
+      "definition_en": "Organizations or institutions not classified as UNI or JOUR, including labs and institutes.",
+      "positive_examples": ["NASA", "Max Planck Institute"],
+      "negative_examples": ["the institute", "the company"]
+    },
+    "CTRY": {
+      "definition_en": "Country names and sovereign states.",
+      "positive_examples": ["France", "Japan"],
+      "negative_examples": ["the country", "the nation"]
+    },
+    "LOC": {
+      "definition_en": "Geographic locations excluding countries.",
+      "positive_examples": ["CERN, Geneva", "Mount Wilson"],
+      "negative_examples": ["the city", "the mountain"]
+    },
+    "DISC": {
+      "definition_en": "Research disciplines and subfields in natural sciences.",
+      "positive_examples": ["quantum chemistry", "astrophysics"],
+      "negative_examples": ["the discipline", "a field of science"]
+    },
+    "THEO": {
+      "definition_en": "Scientific theories or laws.",
+      "positive_examples": ["Theory of Relativity", "Ptolemaic planetary theory"],
+      "negative_examples": ["a theory", "the law"]
+    },
+    "CHEM": {
+      "definition_en": "Chemical compounds, excluding proteins and enzymes.",
+      "positive_examples": ["Sodium chloride", "Carbon dioxide"],
+      "negative_examples": ["a compound", "the chemical"]
+    },
+    "ELEM": {
+      "definition_en": "Chemical elements from the periodic table.",
+      "positive_examples": ["Oxygen", "Hydrogen"],
+      "negative_examples": ["an element", "the atom"]
+    },
+    "PROT": {
+      "definition_en": "Proteins not classified as enzymes.",
+      "positive_examples": ["Hemoglobin", "Insulin"],
+      "negative_examples": ["a protein", "the molecule"]
+    },
+    "ENZ": {
+      "definition_en": "Enzymes, a specific subclass of proteins.",
+      "positive_examples": ["Catalase", "Polymerase"],
+      "negative_examples": ["an enzyme", "the catalyst"]
+    },
+    "ASTRO": {
+      "definition_en": "Astronomical objects such as planets, stars, asteroids, galaxies.",
+      "positive_examples": ["Mars", "Andromeda Galaxy"],
+      "negative_examples": ["a star", "the planet"]
+    },
+    "JOUR": {
+      "definition_en": "Academic journals in natural sciences.",
+      "positive_examples": ["Nature", "Science"],
+      "negative_examples": ["the journal", "a paper"]
+    },
+    "AWARD": {
+      "definition_en": "Awards in the natural sciences.",
+      "positive_examples": ["Nobel Prize in Chemistry", "Fields Medal"],
+      "negative_examples": ["the award", "a prize"]
+    },
+    "EVENT": {
+      "definition_en": "Named events in natural sciences, such as conferences and discoveries.",
+      "positive_examples": ["International Congress of Mathematicians", "Apollo 11 Mission"],
+      "negative_examples": ["the conference", "a discovery"]
+    },
+    "MISC": {
+      "definition_en": "Residual named entities in natural sciences that do not fit SCI, PER, UNI, ORG, CTRY, LOC, DISC, THEO, CHEM, ELEM, PROT, ENZ, ASTRO, JOUR, AWARD, or EVENT. Use sparingly and only when clearly a named entity without a more specific label.",
+      "positive_examples": ["Big Bang", "Manhattan Project"],
+      "negative_examples": ["a phenomenon", "scientific work"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate natural-science-related Wikipedia texts to support downstream linking and database construction. The labels ensure structured representation of scientists, disciplines, compounds, elements, proteins, enzymes, astronomical objects, theories, journals, awards, and events, as well as general entities (persons, organizations, universities, locations, countries). This structured annotation enables creation of domain-specific knowledge bases, scientific resource databases, and enhanced retrieval of scientific information.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_science_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

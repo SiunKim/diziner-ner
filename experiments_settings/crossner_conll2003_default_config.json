@@ -1,0 +1,95 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "ner_scheme": {
+    "PER": {
+      "definition_en": "Proper names of individual persons. Includes real/fictional people and stage names. Exclude titles alone (e.g., 'the president' alone).",
+      "positive_examples": ["Barack Obama", "Ekeus", "Taylor Swift"],
+      "negative_examples": ["a doctor", "the president", "the singer"]
+    },
+    "ORG": {
+      "definition_en": "Official names of organizations, companies, institutions, teams, and agencies, incl. international bodies.",
+      "positive_examples": ["U.N.", "European Commission", "Samsung Electronics"],
+      "negative_examples": ["the board", "the committee"]
+    },
+    "LOC": {
+      "definition_en": "Geopolitical and geographic locations (countries, cities, regions, continents, natural landmarks).",
+      "positive_examples": ["Baghdad", "China", "Europe", "Mount Everest"],
+      "negative_examples": ["the city", "downtown"]
+    },
+    "MISC": {
+      "definition_en": "Miscellaneous named entities not in PER/ORG/LOC. Includes nationality/language adjectives (e.g., 'Italian') and event names (e.g., '1000 Lakes Rally'). Include other proper names only if clearly used as named entities.",
+      "positive_examples": ["Italian", "Grammy Awards", "Brexit"],
+      "negative_examples": ["an Italian player"]
+    }
+  },
+  "final_task_goal": "The objective of this named entity recognition (NER) task is to prepare high-quality annotated data from English newswire articles for the development of robust NER models. These models will subsequently support the construction of knowledge bases and the enhancement of information retrieval in the news domain. In particular, the models are expected to enable systematic linking of persons, locations, organizations, and miscellaneous entities across articles.\n * Document pool and source: The dataset is drawn from a corpus of Reuters news articles, focusing on international and national news reporting written in contemporary journalistic prose.\n * Purpose of NER: The task ensures the consistent extraction of proper named entities, which serves as the foundation for downstream applications such as entity linking and structured resource construction.\n * Entity types: The annotation scheme defines four categories—Person (PER), Organization (ORG), Location (LOC), and Miscellaneous (MISC). These categories encompass personal names, institutional entities, geopolitical units, and other named expressions not included in the first three.\n * Downstream applications: The annotated output and resulting NER models will facilitate entity-centric search, knowledge base construction, and improved access to news information resources.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_conll2003_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

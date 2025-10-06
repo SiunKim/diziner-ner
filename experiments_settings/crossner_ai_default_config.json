@@ -1,0 +1,162 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "algorithm": "ALG",
+    "conference": "CONF",
+    "country": "CTRY",
+    "field": "FIELD",
+    "programminglanguage": "LANG",
+    "location": "LOC",
+    "metrics": "METR",
+    "misc": "MISC",
+    "organisation": "ORG",
+    "person": "PER",
+    "product": "PROD",
+    "researcher": "RES",
+    "task": "TASK",
+    "university": "UNI"
+  },
+  
+  "ner_scheme": {
+    "RES": {
+      "definition_en": "Proper names of individuals who work as researchers in AI, including professors, PhD students, and industry researchers. If a person is an AI researcher, use RES instead of PER.",
+      "positive_examples": ["Geoffrey Hinton", "Fei-Fei Li"],
+      "negative_examples": ["a researcher", "the professor"]
+    },
+    "FIELD": {
+      "definition_en": "Names of research fields within AI and its subfields.",
+      "positive_examples": ["machine learning", "natural language processing"],
+      "negative_examples": ["AI research", "a field of study"]
+    },
+    "TASK": {
+      "definition_en": "Named research tasks in AI.",
+      "positive_examples": ["machine translation", "object detection"],
+      "negative_examples": ["a translation task", "classification problem"]
+    },
+    "PROD": {
+      "definition_en": "Products, toolkits, or systems related to AI.",
+      "positive_examples": ["TensorFlow", "Pepper"],
+      "negative_examples": ["a software package", "the system"]
+    },
+    "ALG": {
+      "definition_en": "Algorithms or models in AI.",
+      "positive_examples": ["Convolutional Neural Network", "Decision Tree"],
+      "negative_examples": ["an algorithm", "the model"]
+    },
+    "METR": {
+      "definition_en": "Evaluation metrics used in AI research.",
+      "positive_examples": ["F1-score", "BLEU"],
+      "negative_examples": ["the metric", "performance measure"]
+    },
+    "LANG": {
+      "definition_en": "Programming languages used in AI research and development.",
+      "positive_examples": ["Python", "Java"],
+      "negative_examples": ["scripting language", "coding"]
+    },
+    "CONF": {
+      "definition_en": "Names of conferences and journals in AI.",
+      "positive_examples": ["NeurIPS", "ICML"],
+      "negative_examples": ["the conference", "the journal"]
+    },
+    "UNI": {
+      "definition_en": "Universities involved in AI research.",
+      "positive_examples": ["Stanford University", "Tsinghua University"],
+      "negative_examples": ["the university", "a campus"]
+    },
+    "PER": {
+      "definition_en": "Proper names of individuals not categorized as RES. General persons not tied to AI research.",
+      "positive_examples": ["Barack Obama", "Elon Musk"],
+      "negative_examples": ["a person", "a man"]
+    },
+    "ORG": {
+      "definition_en": "Organizations or companies not classified under UNI or CONF.",
+      "positive_examples": ["Google", "OpenAI"],
+      "negative_examples": ["the company", "the organization"]
+    },
+    "LOC": {
+      "definition_en": "Geographic locations, excluding countries.",
+      "positive_examples": ["San Francisco", "Silicon Valley"],
+      "negative_examples": ["the city", "the area"]
+    },
+    "CTRY": {
+      "definition_en": "Names of countries and sovereign states.",
+      "positive_examples": ["United States", "China"],
+      "negative_examples": ["the country", "the nation"]
+    },
+    "MISC": {
+      "definition_en": "Residual named entities in the AI domain that do not fit ALG, CONF, CTRY, FIELD, LANG, LOC, METR, ORG, PER, PROD, RES, TASK, or UNI. Use sparingly for clear proper names without another category.",
+      "positive_examples": ["DARPA Grand Challenge", "Loebner Prize"],
+      "negative_examples": ["an AI project", "generic research initiative"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate AI-related Wikipedia texts to support downstream linking and database construction. The labels allow structured connection between researchers, their institutions, algorithms, tasks, products, and metrics, providing the foundation for AI-specific knowledge graphs. These resources will enable entity linking across AI people, works, systems, and organizations, supporting bibliographic integration, research landscape mapping, and enhanced retrieval in AI-focused databases.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_ai_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "genre": "GENRE",
+    "actor": "ACTOR",
+    "year": "YEAR",
+    "title": "TITLE",
+    "rating": "RATING",
+    "plot": "PLOT",
+    "ratings_average": "RATINGS_AVERAGE",
+    "director": "DIRECTOR",
+    "character": "CHARACTER",
+    "song": "SONG",
+    "review": "REVIEW",
+    "trailer": "TRAILER"
+  },
+  "ner_scheme": {
+    "GENRE": {
+      "definition_en": "Movie categories by style, tone, audience, or franchise tag used as genre.",
+      "positive_examples": ["science fiction", "thrillers", "musical", "political drama", "childrens", "action", "disney movie", "military"],
+      "negative_examples": ["Star Wars","R", "best reviewed", "soundtrack", "set in Hawaii"]
+    },
+    "ACTOR": {
+      "definition_en": "Names of actors or actresses appearing in movies.",
+      "positive_examples": ["Bruce Willis", "Clint Eastwood", "Jack Nicholson", "Ewan McGregor"],
+      "negative_examples": ["the actor", "a performer","Steven Spielberg", "James Bond"]
+    },
+    "YEAR": {
+      "definition_en": "Release years or decade mentions tied to films.",
+      "positive_examples": ["1980s", "1990s", "2010s", "last", "new"],
+      "negative_examples": ["recently", "long ago","best","shortest","opening night"]
+    },
+    "TITLE": {
+      "definition_en": "Movie titles or franchise titles.",
+      "positive_examples": ["Star Wars", "Rocky", "Free Willy", "Sucker Punch", "Batman", "Titanic"],
+      "negative_examples": ["James Bond","comedy","best reviewed"]
+    },
+    "RATING": {
+      "definition_en": "Content rating labels assigned by rating boards.",
+      "positive_examples": ["R", "PG-13", "PG"],
+      "negative_examples": ["best","best picture","five stars","top rated"]
+    },
+    "PLOT": {
+      "definition_en": "Story elements, settings, events, or thematic content within movies.",
+      "positive_examples": ["set in Hawaii", "royal family", "insane asylum", "time travel", "protagonist doesnt fall in love", "doctors", "Chicago hospital"],
+      "negative_examples": ["comedy", "R", "best reviewed", "soundtrack", "Star Wars"]
+    },
+    "RATINGS_AVERAGE": {
+      "definition_en": "Mentions of average or aggregate quality judgments used as a comparative ranking.",
+      "positive_examples": ["best reviewed", "best picture"],
+      "negative_examples": ["R","PG-13","review","critic"]
+    },
+    "DIRECTOR": {
+      "definition_en": "Names of film directors.",
+      "positive_examples": ["Steven Spielberg", "Christopher Nolan", "Sofia Coppola", "Ang Lee"],
+      "negative_examples": ["the director", "a filmmaker","Bruce Willis", "Rocky"]
+    },
+    "CHARACTER": {
+      "definition_en": "Names of fictional characters in movies.",
+      "positive_examples": ["Harry Potter", "Darth Vader", "James Bond", "Hannibal Lecter"],
+      "negative_examples": ["the hero", "a villain", "Star Wars", "Batman soundtrack", "main character"]
+    },
+    "SONG": {
+      "definition_en": "Songs, musical pieces, or soundtrack mentions associated with films, including artist-name-plus-songs when used as a song query.",
+      "positive_examples": ["Leonard Cohen songs", "soundtrack", "song day by day", "I will always love you", "Trent Reznor"],
+      "negative_examples": ["musical","My Heart Will Go On movie"]
+    },
+    "REVIEW": {
+      "definition_en": "Subjective or evaluative descriptors of movies or performances used as qualitative judgments.",
+      "positive_examples": ["good", "best", "popular", "must see", "award-winning", "critically acclaimed"],
+      "negative_examples": ["R", "PG-13", "NC 17","best picture", "highest rated"]
+    },
+    "TRAILER": {
+      "definition_en": "Mentions referring to trailers.",
+      "positive_examples": ["shortest trailer", "trailer"],
+      "negative_examples": ["teaser","opening scene","first look","clip"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate movie-related user queries and short review-style texts to support downstream applications. The labels capture structured information about actors, directors, characters, genres, years, origins, awards, plot elements, opinions, soundtracks, relationships, and quotes. This structured annotation enables the development of movie recommendation systems, dialogue agents, automatic review summarization, and knowledge graphs for the film domain, thereby improving retrieval, organization, and large-scale analysis of movie-related information.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/mitnerner/mit_movie_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

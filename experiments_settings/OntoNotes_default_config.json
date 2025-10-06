@@ -1,0 +1,177 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "date": "DATE",
+    "organization": "ORG",
+    "person": "PER",
+    "geographical social political": "GPE",
+    "national religious political": "NORP",
+    "facility": "FAC",
+    "cardinal": "CARD",
+    "location": "LOC",
+    "work of art": "WOA",
+    "law": "LAW",
+    "event": "EVE",
+    "product": "PROD",
+    "ordinal": "ORD",
+    "percent": "PCT",
+    "time": "TIME",
+    "quantity": "QTY",
+    "money": "MNY",
+    "language": "LANG"
+  },
+  "ner_scheme": {
+    "DATE": {
+      "definition_en": "Absolute or relative dates, including years, months, days, named holidays.",
+      "positive_examples": ["October 16, 2013", "Christmas"],
+      "negative_examples": ["afternoon", "ten o’clock"]
+    },
+    "ORG": {
+      "definition_en": "Corporate, governmental, non-governmental, and institutional organizations.",
+      "positive_examples": ["United Nations", "Goldman Sachs"],
+      "negative_examples": ["New York", "the summit"]
+    },
+    "PER": {
+      "definition_en": "Individual people and groups explicitly referred to as persons.",
+      "positive_examples": ["Barack Obama", "the Kennedys"],
+      "negative_examples": ["the presidency", "American citizens"]
+    },
+    "GPE": {
+      "definition_en": "Geopolitical entities: countries, cities, states, provinces, including government and population aspects.",
+      "positive_examples": ["France", "New York"],
+      "negative_examples": ["UN headquarters", "Mount Everest"]
+    },
+    "NORP": {
+      "definition_en": "Nationalities, religious or political groups.",
+      "positive_examples": ["Americans", "Sunni Muslims"],
+      "negative_examples": ["France", "Catholic Church"]
+    },
+    "FAC": {
+      "definition_en": "Facilities such as buildings, airports, highways, bridges.",
+      "positive_examples": ["Pentagon", "Golden Gate Bridge"],
+      "negative_examples": ["California", "Google"]
+    },
+    "CARD": {
+      "definition_en": "Numerals not related to quantity, money, or date.",
+      "positive_examples": ["two", "199"],
+      "negative_examples": ["20 km", "100 dollars"]
+    },
+    "LOC": {
+      "definition_en": "Non-GPE locations, mountain ranges, bodies of water, regions, celestial locales.",
+      "positive_examples": ["Mount Everest", "the Sahara"],
+      "negative_examples": ["France", "UN"]
+    },
+    "WOA": {
+      "definition_en": "Titles of creative works such as books, songs, films, artworks.",
+      "positive_examples": ["War and Peace", "The Starry Night"],
+      "negative_examples": ["Literature", "Russian art"]
+    },
+    "LAW": {
+      "definition_en": "Named legal documents and statutes.",
+      "positive_examples": ["The Constitution", "Civil Rights Act"],
+      "negative_examples": ["legal code", "a law firm"]
+    },
+    "EVE": {
+      "definition_en": "Named events such as wars, battles, sports competitions, natural disasters.",
+      "positive_examples": ["World War II", "Olympics"],
+      "negative_examples": ["spring festival", "graduation day"]
+    },
+    "PROD": {
+      "definition_en": "Objects, vehicles, devices, and named products.",
+      "positive_examples": ["iPhone", "Boeing 747"],
+      "negative_examples": ["technology", "cell phone"]
+    },
+    "ORD": {
+      "definition_en": "Ordinal numbers.",
+      "positive_examples": ["first", "10th"],
+      "negative_examples": ["ten", "100 dollars"]
+    },
+    "PCT": {
+      "definition_en": "Percent expressions with or without the percent symbol.",
+      "positive_examples": ["50%", "ten percent"],
+      "negative_examples": ["ten", "half"]
+    },
+    "TIME": {
+      "definition_en": "Times smaller than a day and relative time expressions.",
+      "positive_examples": ["2 p.m.", "midnight"],
+      "negative_examples": ["October 2013", "Monday"]
+    },
+    "QTY": {
+      "definition_en": "Measurements not normalized to monetary or temporal units, often with units of measure.",
+      "positive_examples": ["10 miles", "5 kilograms"],
+      "negative_examples": ["ten", "1999"]
+    },
+    "MNY": {
+      "definition_en": "Monetary values, including unit.",
+      "positive_examples": ["100 dollars", "€20"],
+      "negative_examples": ["ten", "5 kilograms"]
+    },
+    "LANG": {
+      "definition_en": "Names of languages.",
+      "positive_examples": ["English", "Mandarin"],
+      "negative_examples": ["New England", "Mandarin oranges"]
+    }
+  },
+  "final_task_goal": "This corpus provides a large, multi-genre NER resource from OntoNotes 5.0. * Document pool and source: Newswire, broadcast news, broadcast conversation, telephone speech, web logs, and newsgroups in English, Arabic, and Chinese. * Purpose of NER: Annotate named entities across 18 categories to support coreference, relation, and event extraction tasks. * Entity types: Seventeen categories are used here—DATE, ORG, PER, GPE, NORP, FAC, CARD, LOC, WOA, LAW, EVE, PROD, ORD, PCT, TIME, QTY, MNY, LANG. * Downstream applications: Enable training of robust NER models across genres, support IE tasks requiring cross-sentence entity linking, and serve as the input layer for relation and event extraction pipelines.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/OntoNotes/OntoNotes_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

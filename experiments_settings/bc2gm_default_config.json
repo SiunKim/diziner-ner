@@ -1,0 +1,75 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "Gene": "GENE"
+  },
+  "ner_scheme": {
+    "GENE": {
+      "definition_en": "Mentions of genes or gene products in biomedical text. Include symbols, names, and common variants used by authors; annotate by exact character offsets. Exclude diseases, chemicals, species/organisms, cell types, pathways, and experimental procedures.",
+      "positive_examples": ["factor IX", "K-ras"],
+      "negative_examples": ["5-fluorouracil", "fibroblasts"]
+    }
+  },
+  "final_task_goal": "This task constructs a single-label gene mention corpus optimized for robust mention detection and normalization-ready outputs. * Document pool and source: English biomedical literature with sentences drawn primarily from MEDLINE/PubMed abstracts; sentences are annotated at character offsets to reflect real-world author usage. * Purpose of NER: Identify contiguous spans corresponding to gene or gene product mentions and record start–end character offsets. Support alternate acceptable boundaries to mitigate ambiguity during evaluation. * Entity types: One category—GENE—covering genes and gene products only. Non-gene biomedical entities such as chemicals, diseases, species, and cell types are out of scope. * Downstream applications: Enable gene normalization to database identifiers and cross-resource linking; serve as upstream signals for relation extraction tasks such as protein–protein interaction extraction; compatible with instruction-tuned NER pipelines for multi-corpus training and evaluation.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/bc2gm/bc2gm_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

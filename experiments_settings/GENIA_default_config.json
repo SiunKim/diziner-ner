@@ -1,0 +1,99 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "protein": "PRO",
+    "DNA": "DNA",
+    "cell type": "CTY",
+    "cell line": "CLN",
+    "RNA": "RNA"
+  },
+  "ner_scheme": {
+    "PRO": {
+      "definition_en": "Proteins, protein families/complexes, domains and named mutants; includes transcription factors, receptors, enzymes, antibodies, and viral proteins.",
+      "positive_examples": ["NF-κB", "AP-1", "protein kinase C", "anti-E-selectin mAb", "Epstein–Barr virus–encoded dUTPase", "TNFα"],
+      "negative_examples": ["DNA promoter", "cytokine genes (DNA)", "HeLa (cell line)", "T cells (cell type)"]
+    },
+    "DNA": {
+      "definition_en": "Genomic sequences, genes, promoters/enhancers, motifs, loci and DNA-level variants or edits.",
+      "positive_examples": ["p53 gene", "TCR Vβ8.1 promoter", "MNP site", "32 bp deletion (DNA)"],
+      "negative_examples": ["mRNA / cDNA (RNA)", "NF-κB (PRO)", "HeLa (CLN)"]
+    },
+    "CTY": {
+      "definition_en": "Cell types defined by lineage, function, or morphology, including immune subsets and disease-state qualified types.",
+      "positive_examples": ["T cells", "monocytes", "thymocytes", "Th1/Th2", "hematopoietic cells", "erythrocytes"],
+      "negative_examples": ["HeLa, HL-60 (CLN)", "cell surface (O)", "cells (generic; O)"]
+    },
+    "CLN": {
+      "definition_en": "Named laboratory-cultured cell lines.",
+      "positive_examples": ["HeLa", "HL-60", "BL41-P3HR1", "UT-7/Epo"],
+      "negative_examples": ["T cells (CTY)", "myeloid leukemic cells (CTY)"]
+    },
+    "RNA": {
+      "definition_en": "RNA mentions including mRNA/tRNA/rRNA, specific transcripts, and cDNA libraries; exons/introns when discussed at transcript level.",
+      "positive_examples": ["IL-2 mRNA", "mRNAs", "GATA-1 mRNA", "HeLa cDNA library", "exon 11 (splicing context)"],
+      "negative_examples": ["gene (DNA)", "promoter (DNA)", "protein (PRO)"]
+    }
+  },
+    "final_task_goal": "This corpus standardizes biomedical entity spans in molecular-biology abstracts to support curation-ready structuring of the literature. * Document pool and source: MEDLINE abstracts retrieved with queries on ‘human’, ‘blood cells’, and ‘transcription factors’. * Purpose of NER: Consistently tag contiguous spans for proteins, DNA elements, RNA/transcripts, cell types, and cell lines with strict boundary conventions that reflect experimental reporting. * Entity types: Five—PRO (protein), DNA, RNA, CTY (cell type), CLN (cell line). * Downstream applications: Enable biocuration pipelines, populate pathway/interaction databases, accelerate literature triage for molecule/cell/context indexing, and aggregate cross-paper evidence about targets and regulatory elements.",
+    "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/GENIA/GENIA_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

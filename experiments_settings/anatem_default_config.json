@@ -1,0 +1,75 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "Anatomy": "ANAT"
+  },
+  "ner_scheme": {
+    "ANAT": {
+      "definition_en": "Mentions of anatomical entities across scales, including organs, tissues, cell types, subcellular components, body fluids, and named anatomical regions. Excludes diseases, molecules, experimental conditions, and whole organisms.",
+      "positive_examples": ["auditory brainstem", "pancreatic beta-cell"],
+      "negative_examples": ["5-fluorouracil", "Notch signaling"]
+    }
+  },
+  "final_task_goal": "This task builds a single-label anatomical NER resource that prioritizes ontology-aligned normalization and linkage for large-scale literature mining and database integration. * Document pool and source: Documents are drawn from English-language biomedical literature, including PubMed abstracts and PubMed Central Open Access full-text excerpts. * Purpose of NER: Identify contiguous spans that denote anatomical entities, assign the Anatomy label consistently across biological scales, and enable mapping to controlled vocabularies and ontologies such as UMLS and OBO-derived resources. * Entity types: A single category is used—Anatomy (ANAT)—covering organs, tissues, cell types, subcellular components, body fluids, and named anatomical regions. * Downstream applications: The annotations and resulting taggers support entity normalization and cross-resource linking, powering literature-scale tagging and integration into search and analytics services, and supplying reliable inputs to subsequent biomedical IE tasks.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/anatem/anatem_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

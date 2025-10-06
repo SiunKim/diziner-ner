@@ -1,0 +1,155 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "album": "ALBUM",
+    "award": "AWARD",
+    "band": "BAND",
+    "country": "CTRY",
+    "event": "EVENT",
+    "location": "LOC",
+    "misc": "MISC",
+    "musicalartist": "ART",
+    "musicalinstrument": "INST",
+    "musicgenre": "GENRE",
+    "organisation": "ORG",
+    "person": "PER",
+    "song": "SONG"
+  },
+  "ner_scheme": {
+    "ART": {
+      "definition_en": "Proper names of musical artists, including singers, composers, and songwriters. If the person is a musician, annotate as ART instead of PER.",
+      "positive_examples": ["Taylor Swift", "Beethoven"],
+      "negative_examples": ["a singer", "the composer"]
+    },
+    "PER": {
+      "definition_en": "Proper names of individuals not categorized as ART. General persons unrelated to music.",
+      "positive_examples": ["Barack Obama", "Albert Einstein"],
+      "negative_examples": ["a person", "the man"]
+    },
+    "BAND": {
+      "definition_en": "Proper names of music bands or groups. If an organization is a band, annotate as BAND instead of ORG.",
+      "positive_examples": ["The Beatles", "Coldplay"],
+      "negative_examples": ["the band", "a music group"]
+    },
+    "ALBUM": {
+      "definition_en": "Titles of musical albums.",
+      "positive_examples": ["Abbey Road", "Thriller"],
+      "negative_examples": ["the album", "a record"]
+    },
+    "SONG": {
+      "definition_en": "Titles of songs.",
+      "positive_examples": ["Bohemian Rhapsody", "Imagine"],
+      "negative_examples": ["a song", "the track"]
+    },
+    "GENRE": {
+      "definition_en": "Named music genres and subgenres.",
+      "positive_examples": ["jazz", "hip hop"],
+      "negative_examples": ["a genre", "music style"]
+    },
+    "INST": {
+      "definition_en": "Names of musical instruments.",
+      "positive_examples": ["piano", "guitar"],
+      "negative_examples": ["the instrument", "a keyboard"]
+    },
+    "AWARD": {
+      "definition_en": "Named awards in music.",
+      "positive_examples": ["Grammy Award", "MTV Music Award"],
+      "negative_examples": ["the award", "a prize"]
+    },
+    "EVENT": {
+      "definition_en": "Named music-related events such as festivals or concerts.",
+      "positive_examples": ["Glastonbury Festival", "Coachella"],
+      "negative_examples": ["a concert", "the festival"]
+    },
+    "ORG": {
+      "definition_en": "Organizations not classified as BAND, such as companies, record labels, or institutions.",
+      "positive_examples": ["Sony Music", "Warner Records"],
+      "negative_examples": ["the company", "the label"]
+    },
+    "CTRY": {
+      "definition_en": "Names of countries and sovereign states.",
+      "positive_examples": ["United States", "France"],
+      "negative_examples": ["the country", "the nation"]
+    },
+    "LOC": {
+      "definition_en": "Geographic locations excluding countries.",
+      "positive_examples": ["New York", "Liverpool"],
+      "negative_examples": ["the city", "the town"]
+    },
+    "MISC": {
+      "definition_en": "Residual named entities in the music domain not fitting ALBUM, ART, AWARD, BAND, CTRY, EVENT, GENRE, INST, LOC, ORG, PER, or SONG. Use sparingly and only for proper names without a more specific label.",
+      "positive_examples": ["Woodstock (if treated outside EVENT)", "Billboard Hot 100"],
+      "negative_examples": ["a playlist", "music industry"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate music-related Wikipedia texts to support downstream linking and database construction. The labels ensure structured representation of artists, bands, albums, songs, genres, instruments, awards, and events, as well as general entities (persons, organizations, locations, countries). This structured annotation will enable knowledge graph construction for the music domain, linking artists to works, genres, and events, and facilitating enhanced retrieval and analysis in music-focused databases.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_music_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

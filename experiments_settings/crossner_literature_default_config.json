@@ -1,0 +1,149 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b",
+    "baidu_ernie",
+    "qwen-3-coder-30b",
+    "glm4:32b",
+    "llama3.1:70b",
+    "gemini2.5:flash-lite",
+    "mistal-nemo:12b",
+    "hynyuan-A13B",
+    "qwen-turbo"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "award": "AWARD",
+    "book": "BOOK",
+    "country": "CTRY",
+    "event": "EVENT",
+    "literarygenre": "GENRE",
+    "location": "LOC",
+    "magazine": "MAG",
+    "misc": "MISC",
+    "organisation": "ORG",
+    "person": "PER",
+    "poem": "POEM",
+    "writer": "WRITE"
+  },
+  "ner_scheme": {
+    "WRITE": {
+      "definition_en": "Proper names of individuals whose primary role is in literature, such as novelists, scriptwriters, poets. If the person is a literary professional, use WRITE instead of PER.",
+      "positive_examples": ["Tobias Smollett", "Henry Fielding"],
+      "negative_examples": ["a writer", "the novelist"]
+    },
+    "BOOK": {
+      "definition_en": "Titles of literary works published as books, including novels and book-length collections.",
+      "positive_examples": ["Robinson Crusoe", "Gil Blas"],
+      "negative_examples": ["the book", "a novel"]
+    },
+    "POEM": {
+      "definition_en": "Titles of poetic works, including individual poems or recognized poetry collections.",
+      "positive_examples": ["The Raven", "Paradise Lost"],
+      "negative_examples": ["a poem", "the ode"]
+    },
+    "GENRE": {
+      "definition_en": "Named literary genres and subgenres serving as categories.",
+      "positive_examples": ["picaresque novel", "science fiction"],
+      "negative_examples": ["literary style", "genre writing"]
+    },
+    "MAG": {
+      "definition_en": "Proper names of magazines or periodicals that publish literary works.",
+      "positive_examples": ["The New Yorker", "Granta"],
+      "negative_examples": ["a magazine", "the issue"]
+    },
+    "AWARD": {
+      "definition_en": "Proper names of awards in the field of literature.",
+      "positive_examples": ["Booker Prize", "Pulitzer Prize for Fiction"],
+      "negative_examples": ["the award", "a literary honor"]
+    },
+    "EVENT": {
+      "definition_en": "Named events related to literature such as festivals, readings, or conferences.",
+      "positive_examples": ["Edinburgh International Book Festival", "Hay Festival"],
+      "negative_examples": ["a book fair", "the event"]
+    },
+    "PER": {
+      "definition_en": "Proper names of individuals not categorized as WRITE.",
+      "positive_examples": ["Albert Einstein", "Barack Obama"],
+      "negative_examples": ["a person", "a man"]
+    },
+    "ORG": {
+      "definition_en": "Official names of organizations, institutions, or groups not falling into MAG.",
+      "positive_examples": ["Penguin Books", "Harvard University"],
+      "negative_examples": ["the organization", "the publisher"]
+    },
+    "LOC": {
+      "definition_en": "Geographic locations other than countries.",
+      "positive_examples": ["London", "Mount Olympus"],
+      "negative_examples": ["the city", "the village"]
+    },
+    "CTRY": {
+      "definition_en": "Country names and sovereign states.",
+      "positive_examples": ["France", "United States"],
+      "negative_examples": ["the country", "the nation"]
+    },
+    "MISC": {
+      "definition_en": "Residual named entities in the literature domain that do not fit AWARD, BOOK, CTRY, EVENT, GENRE, LOC, MAG, ORG, PER, POEM, or WRITE. Use sparingly and only for clearly named entities that lack a more specific label.",
+      "positive_examples": ["Romanticism", "National Poetry Month"],
+      "negative_examples": ["a literary trend", "a style of writing"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate literature-related Wikipedia texts to support downstream linking and database construction. The labels enable reliable entity linking and knowledge-graph building across writers, works, genres, magazines, awards, and events, as well as general entities (persons, organizations, locations, countries). These structured annotations will power bibliographic integration, author–work–genre graph construction, and enhanced retrieval in literature-focused knowledge bases.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/crossner/crossner_literature_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

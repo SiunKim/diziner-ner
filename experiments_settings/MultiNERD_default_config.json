@@ -1,0 +1,165 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "location": "LOC",
+    "organization": "ORG",
+    "person": "PER",
+    "plant": "PLANT",
+    "animal": "ANIM",
+    "media": "MEDIA",
+    "event": "EVE",
+    "food": "FOOD",
+    "disease": "DIS",
+    "astronomical object": "CEL",
+    "instrument": "INST",
+    "time": "TIME",
+    "mythical figure": "MYTH",
+    "vehicle": "VEHI",
+    "biology": "BIO",
+    "geographical phenomenon": "GEO"
+  },
+  "ner_scheme": {
+    "PER": {
+      "definition_en": "Real individuals and groups explicitly referred to as persons. Historical saints and verified religious figures are PER.",
+      "positive_examples": ["Leonardo DiCaprio", "Roger Federer", "Francis of Assisi", "Max Weber"],
+      "negative_examples": ["Apollo", "Neptune", "New York Yankees"]
+    },
+    "LOC": {
+      "definition_en": "Geopolitical entities, natural places, and physical facilities or sites.",
+      "positive_examples": ["Rome", "Royal Opera House", "Victoria and Albert Museum", "Mississippi River"],
+      "negative_examples": ["Python Software Foundation", "Hurricane Katrina"]
+    },
+    "ORG": {
+      "definition_en": "Organizations with legal or collective identity such as companies, agencies, institutions, political or religious groups, and sports teams.",
+      "positive_examples": ["Google", "Python Software Foundation", "New York Yankees", "Democratic Party"],
+      "negative_examples": ["Royal Opera House", "Renaissance", "Homo sapiens", "Middle Ages"]
+    },
+    "ANIM": {
+      "definition_en": "Animals and taxa of animals including common and scientific names.",
+      "positive_examples": ["coelacanth", "sea snail", "bison"],
+      "negative_examples": ["Carbonara", "Coffea"]
+    },
+    "DIS": {
+      "definition_en": "Diseases of any type: infectious, genetic, degenerative, physical or mental.",
+      "positive_examples": ["Alzheimer’s disease", "Cystic Fibrosis", "cardiac arrest", "anorexia nervosa"],
+      "negative_examples": ["hypertensive", "Escherichia coli"]
+    },
+    "MEDIA": {
+      "definition_en": "Titles of creative works and media outlets, plus fictional characters and languages.",
+      "positive_examples": ["L'Orfeo", "Rotten Tomatoes", "Gundam"],
+      "negative_examples": ["Google", "Apollo"]
+    },
+    "FOOD": {
+      "definition_en": "Edible foods and drinks including dishes, beverages, and ingredients when referred to as consumables.",
+      "positive_examples": ["Carbonara", "coffee", "sugar", "mozzarella"],
+      "negative_examples": ["Coffea", "sea snail (as species)", "Quercus Petraea"]
+    },
+    "PLANT": {
+      "definition_en": "Plants and plant taxa including trees, flowers, genera, and species names.",
+      "positive_examples": ["Coffea", "Rumex acetosella", "cinnamon"],
+      "negative_examples": ["coffee", "bison"]
+    },
+    "EVE": {
+      "definition_en": "Named events such as wars, battles, festivals, and tournaments.",
+      "positive_examples": ["World War II", "American Civil War", "Cannes Film Festival"],
+      "negative_examples": ["Quercus Petraea", "Cheddar Beer Fondue"]
+    },
+    "TIME": {
+      "definition_en": "Specific periods and eras such as eras, centuries, and named historical periods.",
+      "positive_examples": ["Renaissance", "17th Century", "Christmas", "Ramadan"],
+      "negative_examples": ["12 March 2020", "Monday", "July"]
+    },
+    "CEL": {
+      "definition_en": "Astronomical entities like planets, stars, galaxies, comets, asteroids, and nebulae.",
+      "positive_examples": ["Sun", "Jupiter", "Proxima Centauri"],
+      "negative_examples": ["Apollo", "Hercules"]
+    },
+    "VEHI": {
+      "definition_en": "Vehicles of any type including cars, motorcycles, ships, and aircraft.",
+      "positive_examples": ["Ferrari Testarossa", "Boeing 747"],
+      "negative_examples": ["Spitzer Space Telescope", "New York Yankees"]
+    },
+    "INST": {
+      "definition_en": "Technological, mechanical, musical instruments and tools, including scientific devices and software products when treated as tools.",
+      "positive_examples": ["Spitzer Space Telescope", "Fender Stratocaster", "microscope"],
+      "negative_examples": ["Boeing 747", "Python Software Foundation"]
+    },
+    "MYTH": {
+      "definition_en": "Mythological or legendary entities and deities; non-verified supernatural figures.",
+      "positive_examples": ["Apollo", "Hercules"],
+      "negative_examples": ["Francis of Assisi", "Sun"]
+    },
+    "BIO": {
+      "definition_en": "Biological entities beyond plants and animals such as fungi, bacteria, viruses, and protists.",
+      "positive_examples": ["Escherichia coli", "Herpes simplex virus"],
+      "negative_examples": ["obesity", "Quercus Petraea"]
+    },
+    "GEO": {
+      "definition_en": "Geophysical phenomena and natural hazards such as earthquakes, eruptions, hurricanes, and tsunamis.",
+      "positive_examples": ["Mount Etna eruption", "Hurricane Katrina"],
+      "negative_examples": ["Mount Etna", "Rome"]
+    }
+  },
+  "final_task_goal": "This corpus supports multilingual, fine-grained NER and entity disambiguation.\n * Document pool and source: Wikipedia and Wikinews articles in ten languages, preprocessed and automatically annotated. \n * Purpose of NER:  Provide silver-standard annotations for 16 entity types, explicitly linked to BabelNet, Wikidata, and Wikipedia IDs, thereby enabling robust multilingual training and cross-lingual entity linking.\n * Entity types: Sixteen categories—PER, LOC, ORG, ANIM, DIS, MEDIA, FOOD, PLANT, EVE, TIME, CEL, VEHI, INST, MYTH, BIO, and GEO.Each recognized span is not only classified but also grounded to a knowledge base entry, which allows alignment across languages, consistency in annotation, and integration with multimodal resources such as representative images and definitions. \n * Downstream applications: Develop multilingual NER and entity linking systems, benchmark fine-grained recognition, study error propagation between NER and EL, and build multimodal resources leveraging linked IDs, images, and textual definitions.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/MultiNERD/MultiNERD_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

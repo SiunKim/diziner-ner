@@ -1,0 +1,119 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "rating": "RATE",
+    "amenity": "AMEN",
+    "location": "LOC",
+    "restaurant_name": "REST",
+    "price": "PRICE",
+    "hours": "HOURS",
+    "dish": "DISH",
+    "cuisine": "CUI"
+  },
+  "domain": "restaurant",
+  "label_types": ["AMEN", "CUI", "DISH", "HOURS", "LOC", "PRICE", "RATE", "REST"],
+  "ner_scheme": {
+    "REST": {
+      "definition_en": "Names of specific restaurants or chains as referred to in text. Treat brand or venue names as a single span, including internal common nouns when they are part of the name.",
+      "positive_examples": ["Olive Garden", "House of Blues", "Cheesecake Factory"],
+      "negative_examples": ["the restaurant", "a diner", "the bistro"]
+    },
+    "DISH": {
+      "definition_en": "Concrete dish or drink items mentioned as menu targets, including single nouns and multiword names.",
+      "positive_examples": ["matzo ball soup", "pad thai", "pork burritos", "beer", "wine"],
+      "negative_examples": ["a meal", "food", "good food"]
+    },
+    "CUI": {
+      "definition_en": "Cuisine traditions, dietary styles, or food-service categories. Include venue-type categories that primarily denote what kind of food establishment it is.",
+      "positive_examples": ["Italian", "Mexican", "Asian", "vegan", "kosher", "fast food"],
+      "negative_examples": ["cuisine", "international food", "delicious food"]
+    },
+    "LOC": {
+      "definition_en": "Spatial references that constrain or describe location, including neighborhoods, addresses, qualitative proximity, and distance expressions. Short function words may be included when integral to the phrase.",
+      "positive_examples": ["near here", "around here", "within 5 miles of here", "east end of town", "theater district"],
+      "negative_examples": ["the area", "this place", "there","here (when used alone without qualifier)"]
+    },
+    "HOURS": {
+      "definition_en": "Business-hour or availability expressions.",
+      "positive_examples": ["open now", "open until 2 am", "24 hours", "closes at 9 pm", "lunch"],
+      "negative_examples": ["late night", "soon"]
+    },
+    "PRICE": {
+      "definition_en": "Mentions of cost level or explicit price constraints, including adjectival price signals and numeric thresholds. Include derived forms that directly express pricing.",
+      "positive_examples": ["cheap", "affordable", "reasonably priced", "moderately priced", "well priced", "under 60", "under 20 dollars"],
+      "negative_examples": ["costly (without dining context)", "worth it", "valuable"]
+    },
+    "RATE": {
+      "definition_en": "Quality assessments including numeric or adjectival ratings. Include short evaluatives when clearly used as rating signals.",
+      "positive_examples": ["four star", "five stars", "best", "highly rated", "at least 3 stars"],
+      "negative_examples": ["popular", "nice (if not clearly rating-like)", "famous", "well known"]
+    },
+    "AMEN": {
+      "definition_en": "Venue features, services, or activity-oriented offerings provided by or at the venue.",
+      "positive_examples": ["outdoor seating", "smoking area", "delivery", "takeout", "kid friendly", "buffet", "historic setting", "huge portions", "dance floor", "live music"],
+      "negative_examples": ["the service", "options", "available", "good atmosphere", "ambience"]
+    }
+  },
+  "final_task_goal": "The objective of this NER scheme is to annotate restaurant-related user queries and short review-style texts to support downstream applications. The labels capture structured information about restaurant names, dishes, cuisines, locations, hours, prices, ratings, and amenities. This structured annotation enables building restaurant recommendation systems, automatic review summarization, and dialogue agents for restaurant search and reservation, thereby facilitating retrieval, organization, and large-scale analysis of restaurant-related information.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/mitnerner/mit_restaurant_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}

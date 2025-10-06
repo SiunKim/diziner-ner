@@ -1,0 +1,87 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "person": "PER",
+    "location": "LOC",
+    "organization": "ORG"
+  },
+  "ner_scheme": {
+    "PER": {
+      "definition_en": "Proper names referring to individual persons, including public figures and private users. Usernames are PER when they denote a person account. Excludes common role nouns and pronouns.",
+      "positive_examples": ["Len Goodman", "@3825pat"],
+      "negative_examples": ["the striker", "he"]
+    },
+    "LOC": {
+      "definition_en": "Geographical places and named locations such as countries, cities, regions and landmarks. Use LOC for place mentions, not for organizations via metonymy.",
+      "positive_examples": ["Menlough County Galway", "#Galway"],
+      "negative_examples": ["the city", "downtown"]
+    },
+    "ORG": {
+      "definition_en": "Named organizations including companies, clubs, governments, media outlets and online platforms. Usernames can be ORG when denoting an institutional account.",
+      "positive_examples": ["BBC", "Centers for Disease Control and Prevention"],
+      "negative_examples": ["the company", "the team"]
+    }
+  },
+  "final_task_goal": "This dataset provides a social-media–native NER resource for recognizing persons, locations and organizations in tweets. * Document pool and source: English Twitter posts sampled across times and regions, including news outlets, public figures and general users. * Purpose of NER: Deliver high-quality annotations for PER, LOC and ORG under tweet-specific tokenization, with adjudicated labels for ambiguous cases. * Entity types: Three categories—Person (PER), Location (LOC), Organization (ORG)—with context-sensitive handling of usernames, hashtags and metonymy. * Downstream applications: Support benchmarking of NER in noisy short-text settings, power event detection and trend analysis, and enable entity-centric retrieval and monitoring pipelines.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/Broad Twitter/Broad Twitter_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}
