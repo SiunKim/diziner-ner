@@ -82,16 +82,7 @@ export OPENROUTER_API_KEY="your_openrouter_key_here"
 export OPENAI_API_KEY="your_openai_key_here"
 ```
 
-**Option 2: Configuration File**
-
-Create a `.env` file in the project root:
-
-```bash
-OPENROUTER_API_KEY=your_openrouter_key_here
-OPENAI_API_KEY=your_openai_key_here
-```
-
-**Option 3: Direct Configuration**
+**Option 2: Direct Configuration**
 
 Create `config/api_keys.json`:
 
