@@ -1,25 +1,168 @@
 # DiZiNER: Disagreement-guided Instruction Refinement via Pilot Annotation Simulation for Zero-shot NER
 
-Official implementation of **DiZiNER** (ACL 2025 submission), a framework that simulates human pilot annotation processes to achieve state-of-the-art zero-shot Named Entity Recognition through iterative disagreement-guided instruction refinement.
+**Official code repository for ACL 2025 submission (anonymized for review)**
 
-## Overview
+This repository contains the implementation of **DiZiNER**, a framework that simulates human pilot annotation processes to achieve state-of-the-art zero-shot Named Entity Recognition through iterative disagreement-guided instruction refinement.
 
-DiZiNER mimics the human annotation workflow where multiple annotators independently label documents, supervisors analyze disagreements, and guidelines are iteratively refined until consensus is reached. By employing heterogeneous LLMs as annotators and a supervisor model for disagreement analysis, DiZiNER achieves new zero-shot SOTA on 13 out of 18 NER benchmarks without any task-specific fine-tuning.
+---
+
+## Paper Overview
+
+DiZiNER addresses the persistent gap between zero-shot and supervised NER by mimicking human annotation workflows. Multiple heterogeneous LLMs act as independent annotators labeling shared documents, while a supervisor model analyzes inter-model disagreements to iteratively refine task instructions—mirroring how human annotators establish gold standards through disagreement resolution.
 
 ![Figure 1: DiZiNER Framework Overview](figures/figure1_overview.png)
-## Key Features
-- **Multi-Model Annotation**: Concurrent evaluation of multiple LLMs on NER tasks
-- **Iterative Improvement**: Supervisor-guided refinement through multiple iterations
-- **Comprehensive Analysis**: Agreement, disagreement, and error analysis
-- **Parallel Processing**: Efficient concurrent model inference via OpenRouter
-- **Flexible Data Grouping**: Lexical diversity-based sample selection
-- **Model Dropping**: Dynamic removal of underperforming models
-- **Gold Standard Support**: Optional supervision using ground truth labels
+*Figure 1: Overview of the DiZiNER framework. Multiple heterogeneous LLMs independently annotate documents, disagreement profiles are constructed from their outputs, and a supervisor LLM iteratively refines instructions until convergence.*
+
+### Three-Stage Iterative Cycle
+
+1. **Independent Cross-Annotation**: Multiple LLM annotators independently perform NER tagging on the same document set
+2. **Disagreement Analysis**: Identifies hotspot spans with high annotation disagreement, categorizes error patterns into structured reports
+3. **Instruction Refinement**: Supervisor leverages disagreement summaries to revise task guidelines through a 4-phase process
+
+### Main Results
+
+![Table 1: CrossNER Results](figures/table1_crossner.png)
+*Table 1: Zero-shot NER performance on CrossNER benchmarks. DiZiNER achieves new SOTA on 4 out of 5 domains.*
+
+![Table 2: Overall Results](figures/table2_overall.png)
+*Table 2: Comprehensive results across 18 NER benchmarks spanning general, biomedical, STEM, and social domains.*
+
+**Performance Highlights**:
+- **New SOTA**: Achieved best zero-shot results on 13 out of 18 benchmarks
+- **Average Improvement**: +13.6 F1 points over previous best zero-shot systems
+- **Gap Reduction**: Narrowed zero-shot to supervised gap from 31.7 to 17.6 F1 points
+- **Supervisor Comparison**: Outperformed GPT-4o mini supervisor by +7.5 F1 (CrossNER) and +6.4 F1 (overall)
+
+### Agreement-Performance Correlation
+
+![Figure 2: Agreement Correlation](figures/figure2_correlation.png)
+*Figure 2: Strong positive correlation (average ρ = 0.707) between inter-annotator agreement and NER performance across refinement iterations, confirming that disagreement metrics reliably indicate task performance.*
+
+Key findings:
+- Higher inter-model agreement consistently predicts better NER performance
+- Disagreement-guided refinement is the primary driver of improvements
+- Performance gains stem from instruction quality rather than supervisor model scale
+
+### Key Ablation Studies
+
+![Table 3: Final Task Goal](figures/table3_taskgoal.png)
+*Table 3: Impact of final task goal on performance. Removing task goal reduces average F1 by 3.7 points.*
+
+**Critical Components**:
+1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
+2. **Annotator Diversity**: Homogeneous model pools fail to improve beyond iteration 0
+3. **Optimal Set Size**: 15-20 samples per iteration achieve best performance
+4. **Gold Standard** (-0.4 F1): Disagreement-guided approach outperforms gold supervision
+
+### Datasets Evaluated
+
+**18 NER Benchmarks**:
+- **Cross-domain**: CrossNER (AI, Literature, Music, Politics, Science)
+- **General**: CoNLL2003, ACE2005, OntoNotes, MultiNERD
+- **Biomedical**: AnatEM, BC2GM, BC4CHEMD, BC5CDR, GENIA
+- **STEM**: FabNER
+- **Social**: BroadTwitter, MIT-Movie, MIT-Restaurant
+
+---
+
+## Installation
+
+### Prerequisites
+
+```bash
+# Python 3.8+
+pip install torch sentence-transformers scikit-learn
+pip install numpy pandas matplotlib seaborn
+pip install anthropic openai requests
+```
+
+### API Key Setup
+
+DiZiNER requires API keys for OpenRouter (annotator models) and OpenAI (supervisor model).
+
+**Option 1: Environment Variables (Recommended)**
+
+```bash
+export OPENROUTER_API_KEY="your_openrouter_key_here"
+export OPENAI_API_KEY="your_openai_key_here"
+```
+
+**Option 2: Configuration File**
+
+Create a `.env` file in the project root:
+
+```bash
+OPENROUTER_API_KEY=your_openrouter_key_here
+OPENAI_API_KEY=your_openai_key_here
+```
+
+**Option 3: Direct Configuration**
+
+Create `config/api_keys.json`:
+
+```json
+{
+  "openrouter_api_key": "your_openrouter_key_here",
+  "openai_api_key": "your_openai_key_here"
+}
+```
+
+The code checks for keys in this order: environment variables → .env file → config file.
+
+---
+
+## Quick Start
+
+### Reproducing Paper Results
+
+```python
+from main_experiments import main_iterative_experiment
+
+# Run DiZiNER on CrossNER-AI
+results = main_iterative_experiment(
+    benchmark="crossner_ai",
+    num_models=8,
+    max_iterations=5,
+    supervisor_model_name="gpt-4o-mini",
+    llm_infer_by_openrouter=True,
+    max_common_instructions=5,
+    max_patterns=10,
+    max_model_specific_instructions=3,
+    hotspot_percentile=80,
+    coalition_cutoff=0.5
+)
+```
+
+### Running on Other Benchmarks
+
+```python
+# ACE2005
+results = main_iterative_experiment(
+    benchmark="ACE05",
+    num_models=8,
+    max_iterations=5,
+    supervisor_model_name="gpt-4o-mini",
+    llm_infer_by_openrouter=True
+)
+
+# CoNLL2003
+results = main_iterative_experiment(
+    benchmark="conllpp",
+    num_models=8,
+    max_iterations=5,
+    supervisor_model_name="gpt-4o-mini",
+    llm_infer_by_openrouter=True
+)
+```
+
+---
 
 ## Implementation Architecture
+
 ### Core Pipeline
+
 **Experiment Orchestration** (`main_experiments.py`)
-- Coordinates multi-iteration workflow across annotation → analysis → supervision phases
+- Coordinates multi-iteration workflow: annotation → analysis → supervision
 - Manages experiment configuration and result aggregation
 
 **Annotation** (`annotation_runner.py`, `parallel_annotation.py`, `base_annotator.py`)
@@ -44,8 +187,8 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 - BIO-entity conversion and metric calculation
 - Model selection and result management
 
-## Workflow
-### Standard Experiment Flow
+### Workflow
+
 ```
 1. Dataset Preparation
    └─→ lexical_diversity_grouping.py
@@ -53,10 +196,9 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 
 2. Baseline Annotation (Iteration 0)
    └─→ main_experiments.py
-       ├─→ parallel_annotation.py
+       ├─→ parallel_annotation.py (concurrent processing)
        │   └─→ annotation_runner.py
        │       └─→ base_annotator.py
-       │           └─→ llm_clients.py
        └─→ Saves model results
 
 3. Analysis Phase
@@ -65,117 +207,94 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
        ├─→ disagreement_analysis_in_pipeline.py
        └─→ error_analysis.py
 
-4. Supervision Phase
+4. Supervision Phase (4-phase refinement)
    └─→ supervisor_implementation.py
-       └─→ base_supervisor.py (4 phases)
+       └─→ base_supervisor.py
            └─→ Generates enhanced guidelines
 
 5. Next Iteration (1, 2, ...)
    └─→ Repeats steps 2-4 with updated guidelines
-       └─→ Models use supervisor instructions
 ```
 
-### Iterative Improvement Mechanism
-Each iteration builds upon the previous:
-1. **Annotation**: Models annotate samples using current guidelines
-2. **Analysis**: System identifies disagreements and errors
-3. **Supervision**: Supervisor generates improved guidelines based on analysis
-4. **Update**: Next iteration uses new guidelines for annotation
+### Paper-Implementation Mapping
 
-The process continues until:
-- Maximum iterations reached
-- Performance convergence detected
-- Manual stopping criteria met
+| Paper Component | Implementation Module |
+|-----------------|----------------------|
+| Independent Cross-Annotation | `parallel_annotation.py`, `annotation_runner.py` |
+| Disagreement Analysis | `disagreement_analysis_in_pipeline.py` |
+| Hotspot Identification | Disagreement metrics (Dconf, Dtype, Ubnd) |
+| 4-Phase Supervision | `base_supervisor.py` (Phase 1-4) |
+| Model Weight Computation | Pairwise strict span F1 calculation |
+| Elite Set Selection | Top 50% cumulative weight threshold |
+| Instruction Refinement | `supervisor_implementation.py` |
+
+---
 
 ## Configuration
-### Experiment Parameters
+
+### Experimental Settings
+
+**Annotator Models** (8 heterogeneous LLMs via OpenRouter):
+- mistral-small3.2:24b
+- gpt-oss:20b
+- phi4:14b
+- qwen3:14b
+- gemma3:12b
+- deepseek-r1:8b
+- llama3.1:8b
+- nemotron-nano:8b
+
+**Supervisor Model**: GPT-4o mini (OpenAI API)
+
+**Default Configuration**:
 ```python
-# Dataset and grouping
-benchmark: str              # Dataset name
-num_groups: int            # Number of sample groups
-group_size: int            # Samples per group
-group_index: int           # Which group to use
-
-# Iteration control
-max_iterations: int        # Maximum iteration count
-starting_group_index: int  # Starting group number
-convergence_threshold: float  # F1 improvement threshold
-
-# Model selection
-num_models: int            # Number of models to test
-models: List[str]          # Specific model list
-drop_worst_annr: bool      # Enable model dropping
-
-# Supervision
-supervisor_model_name: str # Model for generating guidelines
-supervised_by_gold_standard: bool  # Use gold labels
-max_common_instructions: int       # Common guideline limit
-max_model_specific_instructions: int  # Per-model limit
-limit_instruction_changes: bool    # Restrict updates
+{
+    'iteration_document_set': 25,      # Samples per iteration
+    'max_iterations': 5,               # Maximum refinement cycles
+    'hotspot_threshold': 0.8,          # Top 20% disagreement tokens
+    'max_common_instructions': 5,      # Common guideline limit
+    'max_patterns': 10,                # Pattern extraction limit
+    'max_model_specific_instructions': 3,  # Per-model guideline limit
+    'coalition_cutoff': 0.5            # Elite set threshold
+}
 ```
 
-### Analysis Parameters
+### Tuning Configurations
+
+Three parameter sets used across benchmarks:
+
+| Config | max_common | max_patterns | max_model_spec | limit_changes | max_ratio |
+|--------|------------|--------------|----------------|---------------|-----------|
+| Stable | 3 | 5 | 2 | True | 0.10 |
+| Relaxed | 5 | 8 | 3 | False | 0.20 |
+| Aggressive | 10 | 20 | 10 | False | 0.50 |
+
+### Advanced Options
 
 ```python
-# Analysis configuration
-run_agreement_analysis: bool
-run_disagreement_analysis: bool
-run_error_analysis: bool
-hotspot_percentile: float     # Disagreement threshold
-coalition_cutoff: float       # Model grouping threshold
-```
-
-## Usage Examples
-
-### Basic Experiment
-
-```python
-from main_experiments import main_iterative_experiment
-
 results = main_iterative_experiment(
     benchmark="conllpp",
-    num_models=5,
-    max_iterations=3,
-    supervisor_model_name="gpt-4",
-    llm_infer_by_openrouter=True
-)
-```
-
-### Advanced Configuration
-
-```python
-results = main_iterative_experiment(
-    benchmark="ACE05",
-    starting_group_index=0,
     num_models=8,
     max_iterations=5,
-    convergence_threshold=0.02,
-    drop_worst_annr=True,
-    supervised_by_gold_standard=True,
-    max_common_instructions=7,
-    max_model_specific_instructions=4,
+    
+    # Model selection
+    drop_worst_annr=True,              # Remove lowest-agreement model
+    
+    # Supervision control
+    supervised_by_gold_standard=False,  # Use disagreement (not gold labels)
+    skip_final_goal_update=False,      # Update task goal each iteration
+    
+    # Instruction limits
     limit_instruction_changes=True,
-    max_change_ratio=0.3,
-    supervisor_model_name="claude-sonnet-4"
+    max_change_ratio=0.2,
+    
+    # Analysis thresholds
+    hotspot_percentile=80,
+    coalition_cutoff=0.5
 )
 ```
 
-### Extract and Test Final Prompts
-
-```python
-from get_final_test_prompts import FinalTestPromptsCollector
-
-collector = FinalTestPromptsCollector(
-    source_dir="experiment_results"
-)
-collector.collect_and_save_prompts(
-    output_dir="final-test-prompts"
-)
-
-# Run inference on collected prompts
-from inference_final_test_prompts import run_inference
-run_inference(prompts_dir="final-test-prompts")
-```
+---
 
 ## Output Structure
 
@@ -190,308 +309,33 @@ experiment_results/
 │   │   │   │   ├── agreement_analysis/
 │   │   │   │   ├── disagreement_analysis/
 │   │   │   │   │   └── hotspot_docs/
+│   │   │   │   │       └── hotspot_disagreement_analysis.md
 │   │   │   │   ├── error_analysis/
 │   │   │   │   ├── supervisor_results/
-│   │   │   │   │   ├── phase1_*.json
-│   │   │   │   │   ├── phase2_*.json
-│   │   │   │   │   ├── phase3_*.json
+│   │   │   │   │   ├── phase1_disagreement_pattern_analysis.json
+│   │   │   │   │   ├── phase2_non_elite_model_analysis.json
+│   │   │   │   │   ├── phase3_guideline_integration.json
 │   │   │   │   │   └── phase4_enhanced_guidelines.json
 │   │   │   │   ├── prompts/
 │   │   │   │   │   └── {model}_iter{N}_prompt_template.txt
 │   │   │   │   ├── combined_results.json
-│   │   │   │   ├── experiment_config.json
-│   │   │   │   └── test_samples.pkl
+│   │   │   │   └── experiment_config.json
 ```
 
-## Key Dependencies
+---
 
-- `torch`: GPU acceleration for embeddings
-- `sentence-transformers`: Text encoding
-- `scikit-learn`: Clustering and metrics
-- `numpy`, `pandas`: Data processing
-- `matplotlib`, `seaborn`: Visualization
-- `anthropic`, `openai`: LLM APIs
-- `requests`: HTTP client for API calls
+## Cost Analysis
 
-## Model Support
-
-### Supported Providers
-- **OpenRouter**: Unified access to multiple models
-- **OpenAI**: GPT-3.5, GPT-4 variants
-- **Anthropic**: Claude models
-- **Ollama**: Local model hosting
-- **Hugging Face**: Open-source models
-
-### Model Specification
-```python
-# Direct model names
-models = [
-    "gpt-4",
-    "claude-sonnet-4",
-    "llama3.1:70b",
-    "mistral-large"
-]
-
-# With source mapping for Hugging Face
-model_source_map = {
-    "custom-model": "organization/model-name"
-}
-```
-
-## Analysis Outputs
-
-### Agreement Analysis
-- Cohen's Kappa (pairwise)
-- Fleiss' Kappa (overall)
-- Per-entity-type agreement
-- Confusion matrices
-
-### Disagreement Analysis
-- Hotspot samples (high disagreement)
-- Model coalitions (clustering)
-- Disagreement patterns
-- Detailed markdown documentation
-
-### Error Analysis
-- Per-model error breakdown
-- Error type distribution (FP, FN, type errors)
-- Confusion matrices by entity type
-- Elite vs. non-elite model comparison
-
-### Supervisor Output
-- Hierarchical common instructions
-- Prioritized model-specific instructions
-- Pattern-based guidelines
-- JSON-formatted for next iteration
-
-## Performance Optimization
-
-### Parallel Processing
-- Concurrent model inference (OpenRouter only)
-- ThreadPoolExecutor for task management
-- Configurable worker count
-- Result caching and reuse
-
-### GPU Acceleration
-- Sentence embedding generation
-- K-means clustering
-- Batch processing optimization
-- Memory management
-
-### Caching
-- Model result caching across iterations
-- Supervisor result reuse
-- Embedding cache for grouping
-
-## Advanced Features
-
-### Model Dropping
-Automatically removes worst-performing models between iterations:
-```python
-drop_worst_annr=True  # Enables model dropping
-```
-
-### Gold Standard Supervision
-Uses ground truth labels for enhanced supervision:
-```python
-supervised_by_gold_standard=True
-gold_standard_config={
-    'weight': 1.0,
-    'include_in_analysis': True
-}
-```
-
-### Instruction Limiting
-Controls guideline modification rate:
-```python
-limit_instruction_changes=True
-max_change_ratio=0.2  # 20% max change per iteration
-```
-
-### Cost Estimation
-Automatic API cost tracking:
-- Input/output token counting
-- Per-model cost breakdown
-- Total experiment cost projection
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Supervisor file timeout**: Increase `supervisor_timeout_minutes`
-2. **Memory errors**: Reduce `batch_size` or `max_workers`
-3. **API rate limits**: Enable automatic retry with backoff
-4. **GPU OOM**: Set `device='cpu'` for clustering
-
-### Debug Mode
-
-```python
-DEBUG = True  # Enable detailed logging
-```
-
-## Citation
-
-If you use this framework in your research, please cite:
-
-```bibtex
-@software{multi_model_ner_framework,
-  title={Multi-Model NER Experiment Framework},
-  author={[Your Name]},
-  year={2025},
-  url={https://github.com/[your-repo]}
-}
-```
-
-## License
-
-[Specify your license here]
-
-## Contributing
-
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request with detailed description
-
-## Related Publication
-
-This codebase implements the DiZiNER framework described in our paper:
-
-**DiZiNER: Disagreement-guided Instruction Refinement via Pilot Annotation Simulation for Zero-shot Named Entity Recognition**
-
-*Anonymous ACL submission*
-
-### Paper Overview
-
-DiZiNER addresses the persistent gap between zero-shot and supervised NER by simulating human pilot annotation workflows. The framework employs multiple heterogeneous LLMs as independent annotators labeling shared documents, while a supervisor model analyzes inter-model disagreements to iteratively refine task instructions—mirroring how human annotators establish gold standards through disagreement resolution.
-
-**Three-Stage Iterative Cycle**:
-
-1. **Independent Cross-Annotation**: Multiple LLM annotators independently perform NER tagging on the same document set
-2. **Disagreement Analysis**: Identifies hotspot spans with high annotation disagreement, categorizes error patterns into structured reports
-3. **Instruction Refinement**: Supervisor leverages disagreement summaries to revise task guidelines through a 4-phase process
-
-#### Key Innovations
-
-1. **Pilot Annotation Simulation**: Replicates human annotation workflows where disagreements drive guideline refinement
-2. **Heterogeneous Model Pool**: Uses 8 independently-developed LLMs to ensure annotation diversity
-3. **Disagreement-Guided Refinement**: Supervisor analyzes hotspot spans (high-disagreement regions) to generate targeted instruction improvements
-4. **Zero-shot Performance**: Achieves SOTA without any task-specific fine-tuning
-
-#### Main Results
-
-![Table 1: CrossNER Results](figures/table1_crossner.png)
-
-![Table 2: Overall Results](figures/table2_overall.png)
-
-**Performance Highlights**:
-- **New SOTA**: Achieved best zero-shot results on 13 out of 18 benchmarks
-- **Average Improvement**: +13.6 F1 points over previous best zero-shot systems
-- **Gap Reduction**: Narrowed zero-shot to supervised gap from 31.7 to 17.6 F1 points
-- **Supervisor Comparison**: Outperformed GPT-4o mini supervisor by +7.5 F1 (CrossNER) and +6.4 F1 (overall)
-
-#### Agreement-Performance Correlation
-
-![Figure 2: Agreement Correlation](figures/figure2_correlation.png)
-The strong correlation between pairwise agreement and gold-standard F1 (average ρ = 0.707 across benchmarks) demonstrates that:
-- Higher inter-model agreement consistently predicts better NER performance
-- Disagreement-guided refinement is the primary driver of improvements
-- Performance gains stem from instruction quality rather than supervisor model scale
-
-#### Framework Comparison with Implementation
-
-| Paper Component | Implementation Module |
-|-----------------|----------------------|
-| Independent Cross-Annotation | `parallel_annotation.py`, `annotation_runner.py` |
-| Disagreement Analysis | `disagreement_analysis_in_pipeline.py` |
-| Hotspot Identification | Disagreement metrics (Dconf, Dtype, Ubnd) |
-| 4-Phase Supervision | `base_supervisor.py` (Phase 1-4) |
-| Model Weight Computation | Pairwise strict span F1 calculation |
-| Elite Set Selection | Top 50% cumulative weight threshold |
-| Instruction Refinement | `supervisor_implementation.py` |
-
-#### Experimental Settings
-
-**Annotator Models** (8 heterogeneous LLMs via OpenRouter):
-- mistral-small3.2:24b
-- gpt-oss:20b
-- phi4:14b
-- qwen3:14b
-- gemma3:12b
-- deepseek-r1:8b
-- llama3.1:8b
-- nemotron-nano:8b
-
-**Supervisor Model**: GPT-4o mini (OpenAI API)
-
-**Configuration**:
-- Iteration document set: 25 samples per iteration
-- Maximum iterations: 5
-- Hotspot threshold: Top 20% disagreement tokens
-- Three tuning configurations: Stable, Relaxed, Aggressive
-
-#### Cost Analysis
-
-Average cost per benchmark:
-- Inference: $1.90 per iteration
-- Supervision: $0.77 per iteration
+Average cost per benchmark (5 iterations):
+- **Inference**: $1.90 per iteration
+- **Supervision**: $0.77 per iteration
 - **Total per iteration**: $2.67
-- **Total per benchmark** (5 iterations): ~$13.35
+- **Total per benchmark**: ~$13.35
 
-#### Key Ablation Findings
+Costs based on OpenRouter and OpenAI API pricing as of August 2025.
 
-![Table 3: Final Task Goal](figures/table3_taskgoal.png)
+---
 
-**Critical Components**:
-1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
-2. **Annotator Diversity**: Homogeneous model pools fail to improve beyond iteration 0
-3. **Optimal Set Size**: 15-20 samples per iteration achieve best performance
-4. **Gold Standard** (-0.4 F1): Disagreement-guided approach outperforms gold supervision
+## Acknowledgments
 
-#### Datasets Evaluated
-
-**18 NER Benchmarks**:
-- **Cross-domain**: CrossNER (AI, Literature, Music, Politics, Science)
-- **General**: CoNLL2003, ACE2005, OntoNotes, MultiNERD
-- **Biomedical**: AnatEM, BC2GM, BC4CHEMD, BC5CDR, GENIA
-- **STEM**: FabNER
-- **Social**: BroadTwitter, MIT-Movie, MIT-Restaurant
-
-### Reproducing Paper Results
-
-To replicate DiZiNER experiments:
-
-```python
-from main_experiments import main_iterative_experiment
-
-# Run DiZiNER on CrossNER-AI
-results = main_iterative_experiment(
-    benchmark="crossner_ai",
-    num_models=8,
-    max_iterations=5,
-    supervisor_model_name="gpt-4o-mini",
-    llm_infer_by_openrouter=True,
-    max_common_instructions=5,
-    max_patterns=10,
-    max_model_specific_instructions=3,
-    hotspot_percentile=80,
-    coalition_cutoff=0.5
-)
-```
-
-### Citation
-
-If you use this codebase or build upon DiZiNER, please cite:
-
-```bibtex
-@inproceedings{anonymous2025diziner,
-  title={DiZiNER: Disagreement-guided Instruction Refinement via Pilot Annotation Simulation for Zero-shot Named Entity Recognition},
-  author={Anonymous},
-  booktitle={Proceedings of ACL 2025},
-  year={2025}
-}
-```
-
-## Contact
-
-[Your contact information]
+This work is submitted to ARR (ACL Rolling Review) for consideration at ACL 2025.
