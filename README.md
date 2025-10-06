@@ -65,10 +65,12 @@ Key findings:
 ### Prerequisites
 
 ```bash
-# Python 3.8+
-pip install torch sentence-transformers scikit-learn
-pip install numpy pandas matplotlib seaborn
-pip install anthropic openai requests
+# Python 3.11+
+pip install torch==2.8.0 transformers==4.55.2 tokenizers==0.21.4 sentence-transformers==5.1.0 datasets==4.0.0
+pip install numpy==2.3.2 pandas==2.3.1 scikit-learn==1.7.1 scipy==1.16.1 tqdm==4.67.1 joblib==1.5.1 regex==2025.7.34
+pip install matplotlib==3.10.5 seaborn==0.13.2 plotly==6.3.0
+pip install openai==1.99.1 anthropic==0.61.0 huggingface-hub==0.34.3 requests==2.32.4 safetensors==0.6.2
+pip install jupyterlab==4.4.7 ipywidgets==8.1.7
 ```
 
 ### API Key Setup
