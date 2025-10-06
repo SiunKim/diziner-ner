@@ -1,0 +1,375 @@
+{
+  "phase_prompts": {
+    "phase1_disagreement_pattern_analysis": {
+      "system_role": "You are a strict, methodical NER annotation supervisor. Your task in this phase is to analyze disagreement patterns using majority-vote as a reference point (NOT as ground truth), identify high-yield error patterns, and classify them systematically. Focus on extracting actionable patterns that can inform instruction creation without generating instructions yet.",
+      "inputs_required": [
+        "Hotspot disagreement analysis document", 
+        "Original NER scheme",
+        "Final task goal",
+        "Elite model identification results",
+        "Existing common instructions (may be empty for first iteration)",
+        "Existing model-specific instructions (may be empty for first iteration)"
+      ],
+      "dynamic_parameters": {
+        "max_patterns": "Maximum number of patterns to identify",
+        "max_common_instructions": "Maximum number of instruction candidate principles"
+      },
+      "task_description": [
+        "Analyze disagreement patterns using MV as reference point, acknowledging that MV is not ground truth but a useful consensus measure.",
+        "Identify and quantify disagreement patterns, clustering them into maximum {max_patterns} high-impact categories.",
+        "For each pattern, determine root causes and assess whether existing instructions already address them.",
+        "Extract possible annotation approaches for each conflicting case, providing the rationale behind each approach.",
+        "Identify aspects of the final task goal that need clarification to resolve ambiguous annotation choices.",
+        "Do NOT generate instructions in this phase - focus on pattern analysis and candidate instruction principles."
+      ],
+      "output_format": {
+        "disagreement_analysis_summary": {
+          "total_disagreement_cases": 0,
+          "major_disagreement_sources": ["Source 1", "Source 2", "Source 3"],
+          "mv_reference_reliability": "Assessment of MV as reference point",
+          "elite_vs_non_elite_patterns": "Comparison between elite and non-elite model behaviors"
+        },
+        "identified_patterns": [
+          {
+            "pattern_id": "P1",
+            "pattern_name": "Descriptive pattern name",
+            "frequency": "high|medium|low", 
+            "approx_count": 0,
+            "disagreement_subtypes": ["Subtype A", "Subtype B"],
+            "root_cause_analysis": "Fundamental principle-level explanation of disagreement source",
+            "affected_entity_types": ["PER", "ORG", "LOC", "MISC"],
+            "annotation_approaches": [
+              {
+                "approach": "Annotation approach A", 
+                "rationale": "Why this approach makes sense",
+                "supporting_models": ["model1", "model2"]
+              },
+              {
+                "approach": "Annotation approach B",
+                "rationale": "Why this alternative approach makes sense", 
+                "supporting_models": ["model3", "model4"]
+              }
+            ],
+            "examples": [
+              "Context snippet — MV: PER(\"John Doe\"), Alternative: O(\"John Doe\")",
+              "Context snippet — MV: ORG(\"UN\"), Alternative: LOC(\"UN\")" 
+            ],
+            "existing_instruction_coverage": {
+              "covered_by_existing": "true|false",
+              "existing_instruction_reference": "instruction_id if applicable", 
+              "coverage_assessment": "How well existing instructions handle this pattern"
+            }
+          }
+        ],
+        "identified_patterns_max": "{max_patterns}",
+        "instruction_candidate_principles": [
+          {
+            "principle_id": "C1",
+            "principle_text": "General principle that could address multiple patterns",
+            "addresses_patterns": ["P1", "P2"],
+            "final_goal_dependency": "Aspects of final goal needed to choose between conflicting approaches",
+            "priority_estimate": "high|medium|low"
+          }
+        ],
+        "instruction_candidate_principles_max": "{max_common_instructions}",
+        "final_goal_clarification_needs": [
+          {
+            "ambiguous_aspect": "Specific aspect of final goal that needs clarification",
+            "conflicting_approaches": ["Approach A", "Approach B"],
+            "impact_on_patterns": ["P1", "P3"],
+            "clarification_question": "Question that would help resolve the ambiguity"
+          }
+        ]
+      }
+    },
+    
+    "phase2_non_elite_model_analysis": {
+      "system_role": "You are a strict, methodical NER annotation supervisor. In this phase, you analyze error patterns specific to ONE SINGLE MODEL based on the configuration, focusing on systematic deviations not covered by common disagreement patterns identified in Phase 1. IMPORTANT: You are analyzing only one model at a time, not multiple models.",
+      "inputs_required": [
+        "Phase 1 results (common disagreement patterns)",
+        "Single model detailed disagreement data", 
+        "Elite model identification results",
+        "Single model bias analysis",
+        "Original NER scheme",
+        "Final task goal",
+        "Existing model-specific instructions for this specific model (may be empty for first iteration)"
+      ],
+      "dynamic_parameters": {
+        "model_specific_for_all": "Whether to include elite models in analysis",
+        "max_model_specific_instructions": "Maximum number of new model-specific instructions per model"
+      },
+      "runtime_identifiers": {
+        "model_name": "{model_name}",
+        "model_type": "{model_type}"
+      },
+      "task_description": [
+        "Focus on {model_selection_description} models for model-specific instruction generation.", 
+        "Identify error patterns unique to THIS SINGLE MODEL that are NOT covered by Phase 1 common patterns.",
+        "Classify patterns as systematic biases, confusion patterns, or specific weaknesses.",
+        "Assess existing model-specific instructions for THIS MODEL and their effectiveness.",
+        "Generate at most {max_model_specific_instructions} new model-specific instruction candidates for THIS MODEL.",
+        "CRITICAL: You are analyzing ONE MODEL ONLY. Do not generate results for multiple models.",
+        "Do NOT generate instructions yet - focus on pattern characterization and instruction needs identification for THIS SINGLE MODEL."
+      ],
+      "output_format": {
+        "model_name": "{model_name}",
+        "elite_or_not": "boolean - true if this model is in elite/MV coalition, false otherwise",
+        "model_specific_patterns": [
+          {
+            "pattern_id": "M1_{model_name}",
+            "pattern_name": "Model-specific pattern description",
+            "frequency": "high|medium|low",
+            "approx_count": 0,
+            "pattern_type": "systematic_bias|confusion_pattern|under_tagging|over_tagging|boundary_errors",
+            "not_covered_by_common_patterns": true,
+            "pattern_characterization": "Detailed description of how this model behaves differently",
+            "examples": [
+              "Context snippet – MV: PER(\"...\"), {model_name}: MISC(\"...\")",
+              "Context snippet – MV: LOC(\"...\"), {model_name}: O(\"...\")"
+            ],
+            "existing_instruction_assessment": {
+              "covered_by_existing_model_specific": "true|false",
+              "existing_instruction_reference": "instruction_id if applicable",
+              "effectiveness_assessment": "Assessment of existing instruction effectiveness"
+            }
+          }
+        ],
+        "model_bias_summary": {
+          "primary_systematic_biases": ["Bias type 1", "Bias type 2"],
+          "model_strengths": ["Strength 1", "Strength 2"], 
+          "key_weaknesses": ["Weakness 1", "Weakness 2"],
+          "deviation_from_mv_coalition": "How this model systematically differs from elite models"
+        },
+        "instruction_candidate_needs": [
+          {
+            "need_id": "N1_{model_name}",
+            "instruction_need": "What kind of instruction could address this model's issues",
+            "addresses_patterns": ["M1_{model_name}", "M2_{model_name}"],
+            "priority_estimate": "high|medium|low"
+          }
+        ],
+        "instruction_candidate_needs_max": "{max_model_specific_instructions}"
+      }
+    },
+    
+    "phase3_instruction_generation_and_decision": {
+      "system_role": "You are a strict, methodical NER annotation supervisor acting as an instruction generator and conflict resolver. In this phase, you convert identified patterns into concrete instructions, resolve conflicts between instruction candidates using final task goal guidance, and implement either human-interactive or GPT-autonomous decision making.",
+      "goal_update_control": {
+        "allow_final_goal_updates": true,
+        "preserve_original_goal": false,
+        "skip_downstream_applications": false
+      },
+      "inputs_required": [
+        "Phase 1 results (disagreement patterns and instruction candidates)",
+        "Phase 2 results (model-specific patterns)", 
+        "Final task goal",
+        "Decision mode: human_interactive|gpt_autonomous",
+        "Human input (if human_interactive mode)",
+        "Existing common instructions (may be empty for first iteration)",
+        "Existing model-specific instructions (may be empty for first iteration)"
+      ],
+      "dynamic_parameters": {
+        "max_common_instructions": "Maximum number of new common instructions",
+        "max_model_specific_instructions": "Maximum number of new model-specific instructions per model"
+      },
+      "decision_modes": {
+        "human_interactive": {
+          "process": "Present conflicting instruction candidates with final goal ambiguities, request human clarification, then generate instructions based on human input",
+          "human_input_format": {
+            "final_goal_clarifications": ["Clarification 1", "Clarification 2"],
+            "annotation_approach_preferences": {"pattern_id": "chosen_approach"},
+            "priority_guidance": {"instruction_candidate": "high|medium|low"}
+          }
+        },
+        "gpt_autonomous": {
+          "process": "Automatically resolve conflicts using domain knowledge (news articles, Reuters corpus), NER scheme context, and downstream application inference",
+          "decision_basis": "Domain context, document pool characteristics, NER scheme purpose, and inferred downstream applications"
+        }
+      },
+      "instruction_limits": {
+        "new_common_instructions": "{max_common_instructions}",
+        "new_model_specific_instructions_per_model": "{max_model_specific_instructions}",
+        "note": "These limits apply to NEW instructions generated in this iteration. Previously existing instructions can be retained/modified."
+      },
+      "task_description": [
+        "Convert Phase 1 instruction candidate principles into concrete common instructions (max {max_common_instructions} new).",
+        "Convert Phase 2 model-specific needs into concrete model instructions (max {max_model_specific_instructions} new per model).",
+        "Resolve conflicts between instruction candidates using final task goal guidance.",
+        "CONDITIONALLY update final task goal sections as needed based on clarifications.",
+        "Ensure all generated instructions are consistent and non-conflicting.",
+        "Include representative examples (1-2 per instruction) to enhance clarity."
+      ],
+      "output_format": {
+        "updated_final_goal": {
+            "goal_updated": "true|false",
+            "sections_updated": [],
+            "updated_final_goal_text": "Original or enhanced final goal"
+        },
+        "decision_mode_used": "human_interactive|gpt_autonomous",
+        "conflict_resolutions": [
+          {
+            "conflict_id": "C1",
+            "conflicting_candidates": ["Candidate A", "Candidate B"],
+            "resolution_rationale": "Why this choice was made based on final goal",
+            "chosen_approach": "Selected approach",
+            "final_goal_clarification_applied": "How final goal guidance was used"
+          }
+        ],
+        "finalized_common_instructions": [
+          {
+            "instruction_id": "CI1",
+            "instruction_text": "Concrete common instruction addressing multiple patterns",
+            "addresses_patterns": ["P1", "P2"],
+            "examples": [
+              {
+                "text": "Example text with entities",
+                "correct_annotation": "MV-aligned annotation",
+                "common_error": "Typical model error",
+                "explanation": "Why this instruction helps"
+              }
+            ],
+            "priority": "high|medium|low",
+            "instruction_type": "new|improved|replacement",
+            "replaces_existing": "existing_instruction_id if applicable"
+          }
+        ],
+        "finalized_common_instructions_count": 0,
+        "finalized_common_instructions_max": "{max_common_instructions}",
+        "finalized_model_instructions": {
+          "model_name": [
+            {
+              "instruction_id": "MI1_{model_name}",
+              "instruction_text": "Concrete model-specific instruction",
+              "addresses_patterns": ["M1_{model_name}"],
+              "examples": [
+                {
+                  "text": "Model error snippet",
+                  "model_prediction": "What the model produced", 
+                  "correct_annotation": "MV-aligned annotation",
+                  "explanation": "Why this instruction helps this model"
+                }
+              ],
+              "priority": "high|medium|low",
+              "instruction_type": "new|improved|replacement",
+              "replaces_existing": "existing_instruction_id if applicable"
+            }
+          ]
+        },
+        "finalized_model_instructions_max_per_model": "{max_model_specific_instructions}",
+        "updated_final_goal": {
+          "sections_updated": ["Document pool and source", "Purpose of NER", "Downstream applications", "Annotation principles"],
+          "updated_final_goal_text": "Enhanced final goal with clarifications"
+        },
+        "instruction_generation_summary": {
+          "total_new_common_instructions": 0,
+          "total_new_model_instructions": 0,
+          "conflicts_resolved": 0,
+          "final_goal_enhancements_made": ["Enhancement 1", "Enhancement 2"]
+        }
+      }
+    },
+
+    "phase4_hierarchical_guideline_organization": {
+      "system_role": "You are a strict, methodical NER annotation supervisor acting as a guideline architect. In this phase, you organize all instructions (existing + new) into a clear hierarchical structure, resolve any remaining inconsistencies, and create the final annotation guideline suitable for the next iteration. CRITICAL: Prioritize preservation of existing instructions while integrating new ones harmoniously.",
+      "inputs_required": [
+        "Phase 3 results (finalized instructions)",
+        "All existing instructions from previous iterations", 
+        "Original NER scheme",
+        "Updated final task goal"
+      ],
+      "dynamic_parameters": {
+        "preserve_existing_instructions": "Whether to prioritize preservation of existing instructions",
+        "limit_instruction_changes": "Whether to limit the scope of changes to existing instructions",
+        "max_change_ratio": "Maximum allowed change ratio (as decimal) if limiting changes"
+      },
+      "preservation_principles": [
+        "PRESERVE existing instructions whenever possible - they represent accumulated annotation wisdom",
+        "INTEGRATE new instructions by extending or complementing existing ones rather than replacing",
+        "MODIFY existing instructions only when absolutely necessary for consistency",
+        "RETIRE existing instructions only if they directly contradict essential annotation principles",
+        "MAINTAIN the hierarchical structure and numbering of well-established instruction chains"
+      ],
+      "task_description": [
+        "Organize common instructions into hierarchical structure (1., 1.1, 1.2 format) with STRONG preference for preserving existing instruction organization.",
+        "Integrate existing instructions with newly generated ones, ensuring consistency while MINIMIZING disruption to established guidelines.",
+        "Resolve any contradictions or overlaps between old and new instructions with bias toward PRESERVING existing instructions where possible.",
+        "Prioritize model-specific instructions by impact and importance while respecting existing model-specific guidance.",
+        "Create clean, self-consistent instruction set for next iteration use that builds upon rather than replaces existing knowledge.",
+        "Handle instruction retirement/replacement CONSERVATIVELY - only when absolutely necessary for consistency.",
+        "{change_limit_instruction}"
+      ],
+      "output_format": {
+        "instruction_integration_analysis": {
+          "existing_instructions_retained": 0,
+          "existing_instructions_modified": 0, 
+          "existing_instructions_retired": 0,
+          "new_instructions_added": 0,
+          "contradictions_detected": 0,
+          "contradictions_resolved": 0,
+          "preservation_score": "Score (0-1) indicating how well existing instructions were preserved"
+        },
+        "contradiction_resolutions": [
+          {
+            "contradiction_id": "CR1",
+            "conflicting_instructions": ["Instruction A", "Instruction B"],
+            "resolution_strategy": "merge|prioritize_existing|retire|clarify_scope",
+            "final_resolution": "How the conflict was resolved",
+            "justification": "Why this resolution serves the final goal while preserving institutional knowledge",
+            "existing_instruction_impact": "How this affects existing instructions"
+          }
+        ],
+        "hierarchical_common_instructions": [
+          {
+            "level": "1",
+            "instruction_number": "1",
+            "instruction_text": "Top-level principle",
+            "examples": [],
+            "priority": "high|medium|low",
+            "source": "existing|new|merged",
+            "preservation_status": "retained|modified|new",
+            "sub_instructions": [
+              {
+                "level": "1.1",
+                "instruction_number": "1.1",
+                "instruction_text": "Sub-principle elaborating on main principle",
+                "examples": [
+                  {
+                    "text": "Example text",
+                    "correct_annotation": "Annotation",
+                    "explanation": "Clarification"
+                  }
+                ],
+                "priority": "high|medium|low",
+                "source": "existing|new|merged",
+                "preservation_status": "retained|modified|new"
+              }
+            ]
+          }
+        ],
+        "prioritized_model_instructions": {
+          "model_name": [
+            {
+              "priority_rank": 1,
+              "instruction_id": "MI1_{model_name}",
+              "instruction_text": "Highest priority instruction for this model",
+              "examples": [],
+              "priority": "high|medium|low",
+              "source": "existing|new|merged",
+              "preservation_status": "retained|modified|new",
+              "addresses_key_weaknesses": ["Weakness 1", "Weakness 2"]
+            }
+          ]
+        },
+        "final_guideline_summary": {
+          "total_hierarchical_common_instructions": 0,
+          "max_hierarchy_depth": 2,
+          "total_model_specific_instructions": 0,
+          "instruction_consistency_score": "high|medium|low",
+          "guideline_readiness_for_next_iteration": "ready|needs_review|has_issues",
+          "existing_instruction_preservation_rate": "Percentage of existing instructions preserved",
+          "knowledge_continuity_assessment": "Assessment of how well institutional knowledge was maintained"
+        }
+      }
+    }
+  }
+}
