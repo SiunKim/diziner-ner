@@ -7,10 +7,7 @@ Official implementation of **DiZiNER** (ACL 2025 submission), a framework that s
 DiZiNER mimics the human annotation workflow where multiple annotators independently label documents, supervisors analyze disagreements, and guidelines are iteratively refined until consensus is reached. By employing heterogeneous LLMs as annotators and a supervisor model for disagreement analysis, DiZiNER achieves new zero-shot SOTA on 13 out of 18 NER benchmarks without any task-specific fine-tuning.
 
 ![Figure 1: DiZiNER Framework Overview](figures/figure1_overview.png)
-*Figure 1: Overview of the DiZiNER framework. Multiple heterogeneous LLMs act as independent annotators, disagreement profiles are constructed from their outputs, and a supervisor LLM iteratively refines instructions until convergence—paralleling human pilot annotation workflows.*
-
 ## Key Features
-
 - **Multi-Model Annotation**: Concurrent evaluation of multiple LLMs on NER tasks
 - **Iterative Improvement**: Supervisor-guided refinement through multiple iterations
 - **Comprehensive Analysis**: Agreement, disagreement, and error analysis
@@ -20,9 +17,7 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 - **Gold Standard Support**: Optional supervision using ground truth labels
 
 ## Implementation Architecture
-
 ### Core Pipeline
-
 **Experiment Orchestration** (`main_experiments.py`)
 - Coordinates multi-iteration workflow across annotation → analysis → supervision phases
 - Manages experiment configuration and result aggregation
@@ -50,9 +45,7 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 - Model selection and result management
 
 ## Workflow
-
 ### Standard Experiment Flow
-
 ```
 1. Dataset Preparation
    └─→ lexical_diversity_grouping.py
@@ -83,7 +76,6 @@ DiZiNER mimics the human annotation workflow where multiple annotators independe
 ```
 
 ### Iterative Improvement Mechanism
-
 Each iteration builds upon the previous:
 1. **Annotation**: Models annotate samples using current guidelines
 2. **Analysis**: System identifies disagreements and errors
@@ -96,9 +88,7 @@ The process continues until:
 - Manual stopping criteria met
 
 ## Configuration
-
 ### Experiment Parameters
-
 ```python
 # Dataset and grouping
 benchmark: str              # Dataset name
@@ -391,10 +381,8 @@ DiZiNER addresses the persistent gap between zero-shot and supervised NER by sim
 #### Main Results
 
 ![Table 1: CrossNER Results](figures/table1_crossner.png)
-*Table 1: Zero-shot NER performance on CrossNER benchmarks. DiZiNER achieves new SOTA on 4 out of 5 domains.*
 
 ![Table 2: Overall Results](figures/table2_overall.png)
-*Table 2: Comprehensive results across 18 NER benchmarks spanning general, biomedical, STEM, and social domains.*
 
 **Performance Highlights**:
 - **New SOTA**: Achieved best zero-shot results on 13 out of 18 benchmarks
@@ -405,8 +393,6 @@ DiZiNER addresses the persistent gap between zero-shot and supervised NER by sim
 #### Agreement-Performance Correlation
 
 ![Figure 2: Agreement Correlation](figures/figure2_correlation.png)
-*Figure 2: Strong positive correlation (ρ > 0.8) between inter-annotator agreement and NER performance across refinement iterations, confirming that disagreement metrics reliably indicate task performance.*
-
 The strong correlation between pairwise agreement and gold-standard F1 (average ρ = 0.707 across benchmarks) demonstrates that:
 - Higher inter-model agreement consistently predicts better NER performance
 - Disagreement-guided refinement is the primary driver of improvements
@@ -455,7 +441,6 @@ Average cost per benchmark:
 #### Key Ablation Findings
 
 ![Table 3: Final Task Goal](figures/table3_taskgoal.png)
-*Table 3: Impact of final task goal on performance. Removing task goal reduces average F1 by 3.7 points.*
 
 **Critical Components**:
 1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
