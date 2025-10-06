@@ -1,0 +1,111 @@
+{
+  "models_ollama": [
+    "gpt-oss:20b",
+    "deepseek-r1:8b",
+    "gemma3:12b",
+    "qwen3:14b",
+    "llama3.1:8b",
+    "phi4:14b",
+    "mistral-small3.2:24b",
+    "Randomblock1/nemotron-nano:8b"
+  ],
+  "models_huggingface_tmp": [
+    "tiiuae/Falcon-H1-7B-Instruct",
+    "nvidia/NVIDIA-Nemotron-Nano-9B-v2"
+  ],
+  "models_huggingface":[
+  ],
+  "disabled_models": [
+    "exaone3.5:7.8b",
+    "granite3.3:8b",
+    "olmo2:13b",
+    "falcon3:10b-instruct-q8_0",
+    "mistral-nemo:12b",
+    "glm4:9b",
+    "qwen3:32b",
+    "gpt-oss:120b",
+    "avil/nvidia-llama-3.1-nemotron-nano-4b-v1.1:latest",
+    "exaone-deep:7.8b-q8_0",
+    "cogito:8b",
+    "exaone-deep:7.8b-q8_0",
+    "llama3.1:8b//4.9GB",
+    "llama3.1:8b-instruct-fp16//16GB",
+    "llama3.1:70b-instruct-q2_K//26GB",
+    "exaone-deep:7.8b-q8_0",
+    "gpt-oss:20b",
+    "mistral-small3.2:24b",
+    "deepseek-r1:14b",
+    "gemma3:12b"
+  ],
+  "label_mapping": {
+    "person": "PER",
+    "organization": "ORG",
+    "geographical social political": "GEONP",
+    "location": "LOC",
+    "facility": "FAC",
+    "vehicle": "VEH",
+    "weapon": "WEA"
+  },
+  "ner_scheme": {
+    "PER": {
+      "definition_en": "Humans as individuals or explicitly human groups. Includes named, nominal, and pronominal mentions when they refer to a specific discourse entity that can be coreferred in context. Excludes vague generics that do not denote a trackable entity.",
+      "positive_examples": ["Gen. Stanley McChrystal", "Jane Roe", "President George W. Bush", "the students (when specific in context)", "we/they (when coreferent)"],
+      "negative_examples": ["people/someone/anyone (indefinite, non-referential)", "a reporter (generic role, not referring to a known entity)"]
+    },
+    "ORG": {
+      "definition_en": "Corporations, agencies, NGOs, teams, media outlets, political parties, or other entities with an organizational identity. Includes nominal/pronominal mentions when they refer to a specific organization. Excludes their physical premises (FAC) and geopolitical polities (GEONP).",
+      "positive_examples": ["IAEA", "CNN", "New York Yankees", "United Nations", "the administration (when a specific administration)"],
+      "negative_examples": ["White House (as a building)", "France", "owners (generic, non-referential)"]
+    },
+    "GEONP": {
+      "definition_en": "Geopolitical entities conflating territory, government, and people. Includes countries, cities, provinces, and demonyms when acting as a polity/actor. Use GEONP for political, administrative, or collective-actor readings.",
+      "positive_examples": ["North Korea", "Iraq", "Jakarta", "Northern Ireland", "the nation", "the Japanese (as a polity)"],
+      "negative_examples": ["the coast of France (LOC)", "Iraqi woman (PER)", "south Baghdad (LOC)"]
+    },
+    "LOC": {
+      "definition_en": "Non-political locations such as landforms, bodies of water, celestial objects, subregions, and supranational regions when not acting as polities.",
+      "positive_examples": ["the red planet", "the surface of the Moon", "upper east side", "the Rhine Valley", "south Baghdad"],
+      "negative_examples": ["France (as a polity, GEONP)", "White House (as a building, FAC)"]
+    },
+    "FAC": {
+      "definition_en": "Functional man-made structures and infrastructure: buildings, bases, compounds, airports, bridges, tunnels, stations, named subareas. Excludes organizations inhabiting them.",
+      "positive_examples": ["White House", "Andrews Air Force Base", "Saddam International Airport", "Pentagon (as building)"],
+      "negative_examples": ["Microsoft (ORG)", "United Nations (ORG)", "France (GEONP)"]
+    },
+    "VEH": {
+      "definition_en": "Vehicles and conveyances for transporting people or goods by land, sea, air, or space. Includes model names and call signs. Excludes static infrastructure and pure weapon systems.",
+      "positive_examples": ["USS Nassau", "Apache helicopter", "Marine One", "Boeing 747"],
+      "negative_examples": ["AK-47 (WEA)", "Highway 101 (LOC)", "launch pad (FAC)"]
+    },
+    "WEA": {
+      "definition_en": "Weapons and armament systems: firearms, explosives, missiles, artillery, WMDs, and weaponized platforms. If an aerial/ground platform is used primarily as a weapon system, label as WEA.",
+      "positive_examples": ["AK-47", "shell", "nuclear weapons", "weapons of mass destruction", "Iraqi missile"],
+      "negative_examples": ["Boeing 747 (VEH)", "convoy (VEH)"]
+    }
+  },
+  "final_task_goal": "The objective of this named entity recognition task is to provide entity-centric annotations across both formal and informal genres, enabling robust information extraction in heterogeneous text. \n  * Document pool and source: The dataset covers English-language newswire, broadcast news, scripted interviews, broadcast conversations, weblogs, online discussion forums, and conversational telephone speech. \n * Purpose of NER: The task ensures consistent identification of named, nominal, and pronominal mentions whenever they refer to a discourse-salient entity. This supports coreference resolution and entity tracking across noisy, conversational, and formal text alike. \n * Entity types: Seven categories are defined—Person (PER), Organization (ORG), Geopolitical Entity (GEONP), Location (LOC), Facility (FAC), Vehicle (VEH), and Weapon (WEA). Geopolitical entities subsume references to a polity’s government, territory, and people when acting as a unified actor. \n * Downstream applications: The annotations serve as a resource for building structured databases of journalistic and conversational materials. They support media monitoring, cross-source information aggregation, and comparative analysis of events and actors across news reporting and online discussions.",
+  "supervisor": {
+    "skip_final_goal_update": false,
+    "preserve_original_goal": false,
+    "model_name": "gpt-5-2025-08-07"
+  },
+  "experiment": {
+    "dataset_path": "datasets/ACE05/ACE05_ner_dataset.pkl",
+    "num_groups": 20,
+    "group_size": 20,
+    "group_index": 0,
+    "grouping_model_name": "all-mpnet-base-v2",
+    "batch_size": 32,
+    "device": "auto",
+    "use_gpu_clustering": true,
+    "random_seed": 42
+  },
+  "analysis": {
+    "run_agreement_analysis": true,
+    "run_disagreement_analysis": true,
+    "generate_documentation": true,
+    "run_error_analysis": true,
+    "hotspot_percentile": 80.0,
+    "coalition_cutoff": 0.5
+  }
+}
