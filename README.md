@@ -11,7 +11,6 @@ This repository contains the implementation of **DiZiNER**, a framework that sim
 DiZiNER addresses the persistent gap between zero-shot and supervised NER by mimicking human annotation workflows. Multiple heterogeneous LLMs act as independent annotators labeling shared documents, while a supervisor model analyzes inter-model disagreements to iteratively refine task instructions—mirroring how human annotators establish gold standards through disagreement resolution.
 
 ![Figure 1: DiZiNER Framework Overview](figures/figure1_overview.png)
-*Figure 1: Overview of the DiZiNER framework. Multiple heterogeneous LLMs independently annotate documents, disagreement profiles are constructed from their outputs, and a supervisor LLM iteratively refines instructions until convergence.*
 
 ### Three-Stage Iterative Cycle
 
@@ -22,10 +21,8 @@ DiZiNER addresses the persistent gap between zero-shot and supervised NER by mim
 ### Main Results
 
 ![Table 1: CrossNER Results](figures/table1_crossner.png)
-*Table 1: Zero-shot NER performance on CrossNER benchmarks. DiZiNER achieves new SOTA on 4 out of 5 domains.*
 
 ![Table 2: Overall Results](figures/table2_overall.png)
-*Table 2: Comprehensive results across 18 NER benchmarks spanning general, biomedical, STEM, and social domains.*
 
 **Performance Highlights**:
 - **New SOTA**: Achieved best zero-shot results on 13 out of 18 benchmarks
@@ -36,7 +33,6 @@ DiZiNER addresses the persistent gap between zero-shot and supervised NER by mim
 ### Agreement-Performance Correlation
 
 ![Figure 2: Agreement Correlation](figures/figure2_correlation.png)
-*Figure 2: Strong positive correlation (average ρ = 0.707) between inter-annotator agreement and NER performance across refinement iterations, confirming that disagreement metrics reliably indicate task performance.*
 
 Key findings:
 - Higher inter-model agreement consistently predicts better NER performance
@@ -46,7 +42,6 @@ Key findings:
 ### Key Ablation Studies
 
 ![Table 3: Final Task Goal](figures/table3_taskgoal.png)
-*Table 3: Impact of final task goal on performance. Removing task goal reduces average F1 by 3.7 points.*
 
 **Critical Components**:
 1. **Final Task Goal** (-3.7 F1 when removed): Essential for resolving conflicting instructions
